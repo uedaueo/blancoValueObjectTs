@@ -83,6 +83,14 @@ public class BlancoValueObjectTsXml2TypeScriptClass {
         this.fTabs = fTabs;
     }
 
+    private boolean defaultGenerateToJson = false;
+    public boolean isDefaultGenerateToJson() {
+        return this.defaultGenerateToJson;
+    }
+    public void setDefaultGenerateToJson(boolean defaultGenerateToJson) {
+        this.defaultGenerateToJson = defaultGenerateToJson;
+    }
+
     /**
      * 内部的に利用するblancoCg用ファクトリ。
      */
@@ -368,7 +376,7 @@ public class BlancoValueObjectTsXml2TypeScriptClass {
             buildMethodGet(argClassStructure, fieldStructure);
         }
 
-        if (toJson) {
+        if (toJson && this.defaultGenerateToJson) {
             buildMethodToJSON(argClassStructure);
         }
 

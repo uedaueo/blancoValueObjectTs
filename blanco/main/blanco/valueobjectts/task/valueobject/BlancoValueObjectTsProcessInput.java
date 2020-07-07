@@ -90,6 +90,14 @@ public class BlancoValueObjectTsProcessInput {
     private String fLineSeparator = "LF";
 
     /**
+     * toJSONメソッドを生成します
+     *
+     * フィールド: [generateToJson]。
+     * デフォルト: [false]。
+     */
+    private boolean fGenerateToJson = false;
+
+    /**
      * フィールド [verbose] の値を設定します。
      *
      * フィールドの説明: [verboseモードで動作させるかどうか。]。
@@ -340,6 +348,29 @@ public class BlancoValueObjectTsProcessInput {
     }
 
     /**
+     * フィールド [generateToJson] の値を設定します。
+     *
+     * フィールドの説明: [toJSONメソッドを生成します]。
+     *
+     * @param argGenerateToJson フィールド[generateToJson]に設定する値。
+     */
+    public void setGenerateToJson(final boolean argGenerateToJson) {
+        fGenerateToJson = argGenerateToJson;
+    }
+
+    /**
+     * フィールド [generateToJson] の値を取得します。
+     *
+     * フィールドの説明: [toJSONメソッドを生成します]。
+     * デフォルト: [false]。
+     *
+     * @return フィールド[generateToJson]から取得した値。
+     */
+    public boolean getGenerateToJson() {
+        return fGenerateToJson;
+    }
+
+    /**
      * このバリューオブジェクトの文字列表現を取得します。
      *
      * <P>使用上の注意</P>
@@ -365,6 +396,7 @@ public class BlancoValueObjectTsProcessInput {
         buf.append(",targetStyle=" + fTargetStyle);
         buf.append(",listClass=" + fListClass);
         buf.append(",lineSeparator=" + fLineSeparator);
+        buf.append(",generateToJson=" + fGenerateToJson);
         buf.append("]");
         return buf.toString();
     }
@@ -420,5 +452,8 @@ public class BlancoValueObjectTsProcessInput {
         // Name: fLineSeparator
         // Type: java.lang.String
         target.fLineSeparator = this.fLineSeparator;
+        // Name: fGenerateToJson
+        // Type: boolean
+        target.fGenerateToJson = this.fGenerateToJson;
     }
 }

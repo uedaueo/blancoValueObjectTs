@@ -105,6 +105,8 @@ public class BlancoValueObjectTsProcessImpl implements BlancoValueObjectTsProces
                 System.out.println("/* tueda */ TARGETDIR = " + strTarget);
             }
 
+            boolean generateToJson = input.getGenerateToJson();
+
             // テンポラリディレクトリを作成。
             new File(input.getTmpdir()
                     + BlancoValueObjectTsConstants.TARGET_SUBDIRECTORY).mkdirs();
@@ -151,6 +153,7 @@ public class BlancoValueObjectTsProcessImpl implements BlancoValueObjectTsProces
                 xml2Class.setXmlRootElement(input.getXmlrootelement());
                 xml2Class.setSheetLang(new BlancoCgSupportedLang().convertToInt(input.getSheetType()));
                 xml2Class.setTabs(input.getTabs());
+                xml2Class.setDefaultGenerateToJson(generateToJson);
                 BlancoValueObjectTsClassStructure [] structures = xml2Class.process(fileMeta2[index], new File(strTarget));
 
                 /*
@@ -184,6 +187,8 @@ public class BlancoValueObjectTsProcessImpl implements BlancoValueObjectTsProces
                 xml2Class.setXmlRootElement(input.getXmlrootelement());
                 xml2Class.setSheetLang(new BlancoCgSupportedLang().convertToInt(input.getSheetType()));
                 xml2Class.setTabs(input.getTabs());
+                /* listClass では常に toJSON は生成しない */
+                xml2Class.setDefaultGenerateToJson(false);
                 xml2Class.processListClass(listClassStructures, listClassStructure, new File(strTarget));
             }
 
