@@ -332,6 +332,7 @@ public class BlancoValueObjectTsXml2TypeScriptClass {
             fCgSourceFile.getHeaderList().add(header);
         }
 
+        boolean toJson = false;
         for (int indexField = 0; indexField < argClassStructure.getFieldList()
                 .size(); indexField++) {
             // おのおののフィールドを処理します。
@@ -348,6 +349,10 @@ public class BlancoValueObjectTsXml2TypeScriptClass {
                         argClassStructure.getName(), fieldStructure.getName()));
             }
 
+            if (!toJson && !fieldStructure.getExcludeToJson()) {
+                toJson = true;
+            }
+
             // フィールドの生成。
             buildField(argClassStructure, fieldStructure, false);
 
@@ -361,6 +366,10 @@ public class BlancoValueObjectTsXml2TypeScriptClass {
 
             // ゲッターメソッドの生成。
             buildMethodGet(argClassStructure, fieldStructure);
+        }
+
+        if (toJson) {
+            buildMethodToJSON(argClassStructure);
         }
 
         // TODO toString メソッドの生成方式を検討する
@@ -723,6 +732,49 @@ public class BlancoValueObjectTsXml2TypeScriptClass {
         method.getLineList().add(
                 "return this.f"
                         + this.getFieldNameAdjustered(argClassStructure, argFieldStructure) + ";");
+    }
+
+    /**
+     * toJSON メソッドを生成します。
+     *
+     * @param argClassStructure
+     */
+    private void buildMethodToJSON(
+            final BlancoValueObjectTsClassStructure argClassStructure
+    ) {
+        final BlancoCgMethod method = fCgFactory.createMethod("toJSON",
+                "このバリューオブジェクトからJSONに書き出すプロパティを取得します。");
+        fCgClass.getMethodList().add(method);
+
+        method.setReturn(fCgFactory.createReturn("any",
+                "toJSONが返すオブジェクト"));
+        method.setNotnull(true);
+        /*
+         * 一応指定するが、Typescript では無効
+         */
+        method.setFinal(true);
+
+        final List<java.lang.String> listLine = method.getLineList();
+
+        listLine.add("return {");
+
+        String line = "";
+        for (int indexField = 0; indexField < argClassStructure.getFieldList()
+                .size(); indexField++) {
+            final BlancoValueObjectTsFieldStructure field = (BlancoValueObjectTsFieldStructure) argClassStructure
+                    .getFieldList().get(indexField);
+
+            if (!field.getExcludeToJson()) {
+                if (indexField > 0 && line.length() > 0) {
+                    listLine.add(line + ",");
+                }
+                line = field.getName() + ": this." + field.getName();
+            }
+        }
+        if (line.length() > 0) {
+            listLine.add(line);
+        }
+        listLine.add("};");
     }
 
     /**

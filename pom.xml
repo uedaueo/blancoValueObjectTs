@@ -5,7 +5,7 @@
 	<groupId>blanco.valueobjectts</groupId>
 	<artifactId>blanco-valueobjectts</artifactId>
 	<packaging>jar</packaging>
-	<version>0.0.13</version>
+	<version>0.0.14</version>
 	<name>blanco-valueobject-ts</name>
 	<url>https://igapyon.github.io/blancofw-maven2</url>
 
@@ -158,6 +158,12 @@
 			<version>3.13</version>
 		</dependency>
 
+		<!-- https://mvnrepository.com/artifact/com.google.googlejavaformat/google-java-format -->
+		<dependency>
+			<groupId>com.google.googlejavaformat</groupId>
+			<artifactId>google-java-format</artifactId>
+			<version>1.8</version>
+		</dependency>
 	</dependencies>
 
 	<build>

@@ -658,6 +658,9 @@ public class BlancoValueObjectTsXmlParser {
                 // constructorArg に対応
                 fieldStructure.setConstArg("true".equals(BlancoXmlBindingUtil
                         .getTextContent(elementList, "constructorArg")));
+                // toJSON に対応
+                fieldStructure.setExcludeToJson("true".equals(BlancoXmlBindingUtil
+                        .getTextContent(elementList, "excludeToJSON")));
 
                 fieldStructure.setDescription(BlancoXmlBindingUtil
                         .getTextContent(elementList, "description"));

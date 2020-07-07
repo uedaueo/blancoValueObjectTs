@@ -82,6 +82,14 @@ public class BlancoValueObjectTsFieldStructure {
     private Boolean fConstArg = false;
 
     /**
+     * toJSONから除外する場合はtrue
+     *
+     * フィールド: [excludeToJson]。
+     * デフォルト: [false]。
+     */
+    private Boolean fExcludeToJson = false;
+
+    /**
      * フィールドの説明です。
      *
      * フィールド: [description]。
@@ -364,6 +372,29 @@ public class BlancoValueObjectTsFieldStructure {
     }
 
     /**
+     * フィールド [excludeToJson] の値を設定します。
+     *
+     * フィールドの説明: [toJSONから除外する場合はtrue]。
+     *
+     * @param argExcludeToJson フィールド[excludeToJson]に設定する値。
+     */
+    public void setExcludeToJson(final Boolean argExcludeToJson) {
+        fExcludeToJson = argExcludeToJson;
+    }
+
+    /**
+     * フィールド [excludeToJson] の値を取得します。
+     *
+     * フィールドの説明: [toJSONから除外する場合はtrue]。
+     * デフォルト: [false]。
+     *
+     * @return フィールド[excludeToJson]から取得した値。
+     */
+    public Boolean getExcludeToJson() {
+        return fExcludeToJson;
+    }
+
+    /**
      * フィールド [description] の値を設定します。
      *
      * フィールドの説明: [フィールドの説明です。]。
@@ -565,6 +596,7 @@ public class BlancoValueObjectTsFieldStructure {
         buf.append(",nullable=" + fNullable);
         buf.append(",value=" + fValue);
         buf.append(",constArg=" + fConstArg);
+        buf.append(",excludeToJson=" + fExcludeToJson);
         buf.append(",description=" + fDescription);
         buf.append(",descriptionList=" + fDescriptionList);
         buf.append(",pattern=" + fPattern);
@@ -633,6 +665,9 @@ public class BlancoValueObjectTsFieldStructure {
         // Name: fConstArg
         // Type: java.lang.Boolean
         target.fConstArg = this.fConstArg;
+        // Name: fExcludeToJson
+        // Type: java.lang.Boolean
+        target.fExcludeToJson = this.fExcludeToJson;
         // Name: fDescription
         // Type: java.lang.String
         target.fDescription = this.fDescription;

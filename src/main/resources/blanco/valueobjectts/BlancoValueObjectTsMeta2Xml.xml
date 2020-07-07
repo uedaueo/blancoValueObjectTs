@@ -218,6 +218,9 @@
         <tablecolumn name="constructorArg">
           <value>コンストラクタ引数</value>
         </tablecolumn>
+        <tablecolumn name="excludeToJSON">
+          <value>toJSONから除外</value>
+        </tablecolumn>
         <tablecolumn name="description">
           <value>説明</value>
         </tablecolumn>
