@@ -834,6 +834,10 @@ public class BlancoValueObjectTsXmlParser {
             System.out.println("/* tueda */ className is not specified. SKIP.");
             return;
         }
+        if (className.equals(objClassStructure.getName())) {
+            System.out.println("/* tueda */ Maybe recursive defition. SKIP : " + className);
+            return;
+        }
         String basedir = objClassStructure.getBasedir();
         if (basedir == null) {
             basedir = "";
