@@ -84,6 +84,11 @@ public class BlancoValueObjectTsTask extends Task {
     protected boolean fIsFieldGenerateToJsonProcessed = false;
 
     /**
+     * フィールド [searchTmpdir] に値がセットされたかどうか。
+     */
+    protected boolean fIsFieldSearchTmpdirProcessed = false;
+
+    /**
      * verboseモードで動作させるかどうか。
      *
      * @param arg verboseモードで動作させるかどうか。
@@ -390,6 +395,31 @@ public class BlancoValueObjectTsTask extends Task {
     }
 
     /**
+     * Antタスクの[searchTmpdir]アトリビュートのセッターメソッド。
+     *
+     * 項目番号: 12<br>
+     * listClassの対象とするtmpディレクトリをカンマ区切りで指定します。指定ディレクトリ直下のvalueobjectディレクトリの下にxmlを探しにいきます。<br>
+     *
+     * @param arg セットしたい値
+     */
+    public void setSearchTmpdir(final String arg) {
+        fInput.setSearchTmpdir(arg);
+        fIsFieldSearchTmpdirProcessed = true;
+    }
+
+    /**
+     * Antタスクの[searchTmpdir]アトリビュートのゲッターメソッド。
+     *
+     * 項目番号: 12<br>
+     * listClassの対象とするtmpディレクトリをカンマ区切りで指定します。指定ディレクトリ直下のvalueobjectディレクトリの下にxmlを探しにいきます。<br>
+     *
+     * @return このフィールドの値
+     */
+    public String getSearchTmpdir() {
+        return fInput.getSearchTmpdir();
+    }
+
+    /**
      * Antタスクのメイン処理。Apache Antから このメソッドが呼び出されます。
      *
      * @throws BuildException タスクとしての例外が発生した場合。
@@ -416,6 +446,7 @@ public class BlancoValueObjectTsTask extends Task {
             System.out.println("- listClass:[" + getListClass() + "]");
             System.out.println("- lineSeparator:[" + getLineSeparator() + "]");
             System.out.println("- generateToJson:[" + getGenerateToJson() + "]");
+            System.out.println("- searchTmpdir:[" + getSearchTmpdir() + "]");
         }
 
         try {

@@ -98,6 +98,13 @@ public class BlancoValueObjectTsProcessInput {
     private boolean fGenerateToJson = false;
 
     /**
+     * listClassの対象とするtmpディレクトリをカンマ区切りで指定します。指定ディレクトリ直下のvalueobjectディレクトリの下にxmlを探しにいきます。
+     *
+     * フィールド: [searchTmpdir]。
+     */
+    private String fSearchTmpdir;
+
+    /**
      * フィールド [verbose] の値を設定します。
      *
      * フィールドの説明: [verboseモードで動作させるかどうか。]。
@@ -371,6 +378,28 @@ public class BlancoValueObjectTsProcessInput {
     }
 
     /**
+     * フィールド [searchTmpdir] の値を設定します。
+     *
+     * フィールドの説明: [listClassの対象とするtmpディレクトリをカンマ区切りで指定します。指定ディレクトリ直下のvalueobjectディレクトリの下にxmlを探しにいきます。]。
+     *
+     * @param argSearchTmpdir フィールド[searchTmpdir]に設定する値。
+     */
+    public void setSearchTmpdir(final String argSearchTmpdir) {
+        fSearchTmpdir = argSearchTmpdir;
+    }
+
+    /**
+     * フィールド [searchTmpdir] の値を取得します。
+     *
+     * フィールドの説明: [listClassの対象とするtmpディレクトリをカンマ区切りで指定します。指定ディレクトリ直下のvalueobjectディレクトリの下にxmlを探しにいきます。]。
+     *
+     * @return フィールド[searchTmpdir]から取得した値。
+     */
+    public String getSearchTmpdir() {
+        return fSearchTmpdir;
+    }
+
+    /**
      * このバリューオブジェクトの文字列表現を取得します。
      *
      * <P>使用上の注意</P>
@@ -397,6 +426,7 @@ public class BlancoValueObjectTsProcessInput {
         buf.append(",listClass=" + fListClass);
         buf.append(",lineSeparator=" + fLineSeparator);
         buf.append(",generateToJson=" + fGenerateToJson);
+        buf.append(",searchTmpdir=" + fSearchTmpdir);
         buf.append("]");
         return buf.toString();
     }
@@ -455,5 +485,8 @@ public class BlancoValueObjectTsProcessInput {
         // Name: fGenerateToJson
         // Type: boolean
         target.fGenerateToJson = this.fGenerateToJson;
+        // Name: fSearchTmpdir
+        // Type: java.lang.String
+        target.fSearchTmpdir = this.fSearchTmpdir;
     }
 }

@@ -80,6 +80,8 @@ public class BlancoValueObjectTsBatchProcess {
                 input.setLineSeparator(arg.substring(15));
             } else if (arg.startsWith("-generateToJson=")) {
                 input.setGenerateToJson(Boolean.valueOf(arg.substring(16)).booleanValue());
+            } else if (arg.startsWith("-searchTmpdir=")) {
+                input.setSearchTmpdir(arg.substring(14));
             } else if (arg.equals("-?") || arg.equals("-help")) {
                 usage();
                 System.exit(END_SUCCESS);
@@ -173,7 +175,7 @@ public class BlancoValueObjectTsBatchProcess {
      */
     public static final void usage() {
         System.out.println("BlancoValueObjectTsBatchProcess: Usage:");
-        System.out.println("  java blanco.valueobjectts.task.BlancoValueObjectTsBatchProcess -verbose=値1 -metadir=値2 -targetdir=値3 -tmpdir=値4 -encoding=値5 -tabs=値6 -xmlrootelement=値7 -sheetType=値8 -targetStyle=値9 -listClass=値10 -lineSeparator=値11 -generateToJson=値12");
+        System.out.println("  java blanco.valueobjectts.task.BlancoValueObjectTsBatchProcess -verbose=値1 -metadir=値2 -targetdir=値3 -tmpdir=値4 -encoding=値5 -tabs=値6 -xmlrootelement=値7 -sheetType=値8 -targetStyle=値9 -listClass=値10 -lineSeparator=値11 -generateToJson=値12 -searchTmpdir=値13");
         System.out.println("    -verbose");
         System.out.println("      説明[verboseモードで動作させるかどうか。]");
         System.out.println("      型[真偽]");
@@ -220,6 +222,9 @@ public class BlancoValueObjectTsBatchProcess {
         System.out.println("      説明[toJSONメソッドを生成します]");
         System.out.println("      型[真偽]");
         System.out.println("      デフォルト値[false]");
+        System.out.println("    -searchTmpdir");
+        System.out.println("      説明[listClassの対象とするtmpディレクトリをカンマ区切りで指定します。指定ディレクトリ直下のvalueobjectディレクトリの下にxmlを探しにいきます。]");
+        System.out.println("      型[文字列]");
         System.out.println("    -? , -help");
         System.out.println("      説明[使い方を表示します。]");
     }

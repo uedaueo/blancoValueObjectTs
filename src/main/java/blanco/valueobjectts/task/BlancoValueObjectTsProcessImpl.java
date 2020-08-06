@@ -11,10 +11,7 @@ package blanco.valueobjectts.task;
 
 import blanco.cg.BlancoCgSupportedLang;
 import blanco.commons.util.BlancoStringUtil;
-import blanco.valueobjectts.BlancoValueObjectTsConstants;
-import blanco.valueobjectts.BlancoValueObjectTsMeta2Xml;
-import blanco.valueobjectts.BlancoValueObjectTsXml2TypeScriptClass;
-import blanco.valueobjectts.BlancoValueObjectTsXmlParser;
+import blanco.valueobjectts.*;
 import blanco.valueobjectts.message.BlancoValueObjectTsMessage;
 import blanco.valueobjectts.task.valueobject.BlancoValueObjectTsProcessInput;
 import blanco.valueobjectts.valueobject.BlancoValueObjectTsClassStructure;
@@ -138,6 +135,12 @@ public class BlancoValueObjectTsProcessImpl implements BlancoValueObjectTsProces
             List<BlancoValueObjectTsClassStructure> listClassStructures = new ArrayList<>();
             if (listClassName != null && listClassName.length() > 0) {
                 createClassList = true;
+                /*
+                 * ClassList 生成のために、
+                 * searchTmpdir で指定されているディレクトリの情報を収集しておく。
+                 */
+                BlancoValueObjectTsUtil.isVerbose = input.getVerbose();
+                BlancoValueObjectTsUtil.processValueObjects(input, listClassStructures);
             }
 
             // 次にメタディレクトリとして指定されているディレクトリを走査
@@ -180,6 +183,7 @@ public class BlancoValueObjectTsProcessImpl implements BlancoValueObjectTsProces
                     System.out.println("[WARN] listClass is specified but no meta file. : " + listClassName);
                     return BlancoValueObjectTsBatchProcess.END_SUCCESS;
                 }
+
                 final BlancoValueObjectTsXml2TypeScriptClass xml2Class = new BlancoValueObjectTsXml2TypeScriptClass();
                 xml2Class.setEncoding(input.getEncoding());
                 xml2Class.setVerbose(input.getVerbose());
