@@ -61,7 +61,6 @@ public class BlancoValueObjectTsXmlParser {
         {put(fBundle.getMeta2xmlElementCommonTs(), BlancoCgSupportedLang.TS);}
     };
 
-    public static Map<String, String> classList = null;
     public Map<String, List<String>> importHeaderList = new HashMap<>();
 
     /**
@@ -158,7 +157,7 @@ public class BlancoValueObjectTsXmlParser {
                     objClassStructure = parseElementSheet(elementSheet);
                     break;
                 case BlancoCgSupportedLang.PHP:
-                    objClassStructure = parseElementSheetPhp(elementSheet, classList);
+                    objClassStructure = parseElementSheetPhp(elementSheet);
                     /* NOT YET SUPPORT ANOTHER LANGUAGES */
             }
 
@@ -349,20 +348,13 @@ public class BlancoValueObjectTsXmlParser {
      * @return パースの結果得られたバリューオブジェクト情報。「name」が見つからなかった場合には nullを戻します。
      */
     public BlancoValueObjectTsClassStructure parseElementSheetPhp(
-            final BlancoXmlElement argElementSheet,
-            final Map<String, String> argClassList) {
+            final BlancoXmlElement argElementSheet) {
         final BlancoValueObjectTsClassStructure objClassStructure = new BlancoValueObjectTsClassStructure();
         final List<BlancoXmlElement> listCommon = BlancoXmlBindingUtil
                 .getElementsByTagName(argElementSheet,
                         "blancovalueobjectphp-common");
         if (listCommon == null || listCommon.size() == 0) {
             // commonが無い場合にはスキップします。
-            return null;
-        }
-
-        if (argClassList == null) {
-            // classList が無い場合もスキップします
-            System.out.println("### ERROR ### NO CLASS LIST DEFINED.");
             return null;
         }
 
@@ -446,13 +438,14 @@ public class BlancoValueObjectTsXmlParser {
             if (className != null) {
                 String classNameCanon = className;
                 String packageName = BlancoXmlBindingUtil.getTextContent(elementExtendsRoot, "package");
-                if (packageName == null) {
+                BlancoValueObjectTsClassStructure voStructure = BlancoValueObjectTsUtil.objects.get(className);
+                if (BlancoStringUtil.null2Blank(packageName).length() == 0 && voStructure != null) {
                     /*
                      * このクラスのパッケージ名を探す
                      */
-                    packageName = argClassList.get(className);
+                    packageName = voStructure.getPackage();
                 }
-                if (packageName != null) {
+                if (BlancoStringUtil.null2Blank(packageName).length() > 0) {
                     classNameCanon = packageName + "." + className;
                 }
                 if (isVerbose()) {
@@ -463,8 +456,12 @@ public class BlancoValueObjectTsXmlParser {
                 /*
                  * TypeScript 用 import 情報の作成
                  */
-                if (objClassStructure.getCreateImportList() && packageName != null && packageName.length() > 0) {
-                    this.makeImportHeaderList(packageName, className, objClassStructure);
+                if (objClassStructure.getCreateImportList() && BlancoStringUtil.null2Blank(packageName).length() > 0) {
+                    String targeBasedir = null;
+                    if (voStructure != null) {
+                        targeBasedir = voStructure.getBasedir();
+                    }
+                    this.makeImportHeaderList(packageName, className, objClassStructure, targeBasedir);
                 }
             }
         }
@@ -499,14 +496,19 @@ public class BlancoValueObjectTsXmlParser {
                 if (objClassStructure.getCreateImportList()) {
                     String packageName = this.getPackageName(interfaceName);
                     String className = this.getSimpleClassName(interfaceName);
-                    if (packageName.length() == 0) {
+                    BlancoValueObjectTsClassStructure voStructure = BlancoValueObjectTsUtil.objects.get(className);
+                    if (BlancoStringUtil.null2Blank(packageName).length() == 0 && voStructure != null) {
                         /*
                          * このクラスのパッケージ名を探す
                          */
-                        packageName = argClassList.get(className);
+                        packageName = voStructure.getPackage();
                     }
-                    if (packageName != null && packageName.length() > 0) {
-                        this.makeImportHeaderList(packageName, className, objClassStructure);
+                    if (BlancoStringUtil.null2Blank(packageName).length() > 0) {
+                        String targetBasedir = null;
+                        if (voStructure != null) {
+                            targetBasedir = voStructure.getBasedir();
+                        }
+                        this.makeImportHeaderList(packageName, className, objClassStructure, targetBasedir);
                     }
                 }
             }
@@ -561,24 +563,31 @@ public class BlancoValueObjectTsXmlParser {
                     javaType = "any";
                 } else {
                     /* この名前の package を探す */
-                    String packageName = argClassList.get(phpType);
-                    if (packageName == null) {
-                        // package 名の分離を試みる
-
+                    String packageName = this.getPackageName(phpType);
+                    String className = this.getSimpleClassName(phpType);
+                    BlancoValueObjectTsClassStructure voStructure = BlancoValueObjectTsUtil.objects.get(className);
+                    System.out.println("### packageName = " + packageName);
+                    System.out.println("### className = " + className);
+                    System.out.println("### voStructure = " + voStructure);
+                    if (BlancoStringUtil.null2Blank(packageName).length() == 0 && voStructure != null) {
+                        packageName = voStructure.getPackage();
                     }
-                    if (packageName != null) {
-                        javaType = packageName + "." + phpType;
+                    if (BlancoStringUtil.null2Blank(packageName).length() > 0) {
+                        javaType = packageName + "." + className;
                     }
-
-                    /* その他はそのまま記述する */
-                    System.out.println("/* tueda */ Unknown php type: " + javaType);
 
                     /*
                      * TypeScript 用 import 情報の作成
                      */
-                    if (objClassStructure.getCreateImportList() && packageName != null && packageName.length() > 0) {
-                        this.makeImportHeaderList(packageName, phpType, objClassStructure);
+                    if (objClassStructure.getCreateImportList() && BlancoStringUtil.null2Blank(packageName).length() > 0) {
+                        String targetBasedir = null;
+                        if (voStructure != null) {
+                            targetBasedir = voStructure.getBasedir();
+                        }
+                        this.makeImportHeaderList(packageName, phpType, objClassStructure, targetBasedir);
                     }
+                    /* その他はそのまま記述する */
+                    System.out.println("/* tueda */ Unknown php type: " + javaType);
                 }
 
                 fieldStructure.setType(javaType);
@@ -616,25 +625,32 @@ public class BlancoValueObjectTsXmlParser {
                     if ("object".equalsIgnoreCase(phpGeneric)) {
                         javaGeneric = "any";
                     } else {
-                    /* この名前の package を探す */
-                        String packageName = argClassList.get(phpGeneric);
-                        if (packageName != null) {
+                        /* この名前の package を探す */
+                        String packageName = this.getPackageName(phpGeneric);
+                        String className = this.getSimpleClassName(phpGeneric);
+                        BlancoValueObjectTsClassStructure voStructure = BlancoValueObjectTsUtil.objects.get(className);
+                        if (BlancoStringUtil.null2Blank(packageName).length() == 0 && voStructure != null) {
+                            packageName = voStructure.getPackage();
+                        }
+                        if (BlancoStringUtil.null2Blank(packageName).length() > 0) {
                             javaGeneric = packageName + "." + phpGeneric;
                         }
-
-                    /* その他はそのまま記述する */
-                        System.out.println("/* tueda */ Unknown php type: " + javaGeneric);
 
                         /*
                          * TypeScript 用 import 情報の作成
                          */
-                        if (objClassStructure.getCreateImportList() && packageName != null && packageName.length() > 0) {
-                            this.makeImportHeaderList(packageName, phpGeneric, objClassStructure);
+                        if (objClassStructure.getCreateImportList() && BlancoStringUtil.null2Blank(packageName).length() == 0) {
+                            String targeBasedir = null;
+                            if (voStructure != null) {
+                                targeBasedir = voStructure.getBasedir();
+                            }
+                            this.makeImportHeaderList(packageName, phpGeneric, objClassStructure, targeBasedir);
                         }
+                        /* その他はそのまま記述する */
+                        System.out.println("/* tueda */ Unknown php generic: " + javaGeneric);
                     }
-
                     fieldStructure.setGeneric(javaGeneric);
-                    fieldStructure.setType(javaType);
+//                    fieldStructure.setType(javaType);
                 }
 
                 /* method の annnotation に対応 */
@@ -825,8 +841,9 @@ public class BlancoValueObjectTsXmlParser {
      * インポート文を生成する
      * @param className
      * @param objClassStructure
+     * @param targetBasedir
      */
-    public void makeImportHeaderList(String packageName, String className, BlancoValueObjectTsClassStructure objClassStructure) {
+    public void makeImportHeaderList(String packageName, String className, BlancoValueObjectTsClassStructure objClassStructure, String targetBasedir) {
         if (objClassStructure == null) {
             throw new IllegalArgumentException("objClassStructure should not be NULL.");
         }
@@ -838,14 +855,22 @@ public class BlancoValueObjectTsXmlParser {
             System.out.println("/* tueda */ Maybe recursive defition. SKIP : " + className);
             return;
         }
-        String basedir = objClassStructure.getBasedir();
+        if (isVerbose()) {
+            System.out.println("makeImportHeaderList: baseDir = " + objClassStructure.getBasedir() + "] targetBasedir = [" + targetBasedir + "]");
+        }
+        String basedir = targetBasedir;
+        if (basedir == null || basedir.length() == 0) {
+            basedir = objClassStructure.getBasedir();
+        }
         if (basedir == null) {
             basedir = "";
         }
         String importFrom = "./" + className;
         if (packageName != null &&
                 packageName.length() != 0 &&
-                packageName.equals(objClassStructure.getPackage()) != true) {
+                (packageName.equals(objClassStructure.getPackage()) != true ||
+                basedir != objClassStructure.getBasedir())
+        ) {
             String classNameCanon = packageName.replace('.', '/') + "/" + className;
             importFrom = basedir + "/" + classNameCanon;
         }

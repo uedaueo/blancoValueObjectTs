@@ -2,6 +2,8 @@ package blanco.valueobjectts.valueobject;
 
 import java.util.List;
 
+import blanco.cg.valueobject.BlancoCgField;
+
 /**
  * バリューオブジェクトのクラスをあらわすバリューオブジェクトクラス。このクラスの設定情報をもとにクラスが自動生成されます。
  */
@@ -47,7 +49,7 @@ public class BlancoValueObjectTsClassStructure {
      * フィールド: [descriptionList]。
      * デフォルト: [new java.util.ArrayList&lt;java.lang.String&gt;()]。
      */
-    private List<java.lang.String> fDescriptionList = new java.util.ArrayList<java.lang.String>();
+    private List<String> fDescriptionList = new java.util.ArrayList<java.lang.String>();
 
     /**
      * クラスのアノテーションを指定します。
@@ -55,7 +57,7 @@ public class BlancoValueObjectTsClassStructure {
      * フィールド: [annotationList]。
      * デフォルト: [new java.util.ArrayList&lt;java.lang.String&gt;()]。
      */
-    private List<java.lang.String> fAnnotationList = new java.util.ArrayList<java.lang.String>();
+    private List<String> fAnnotationList = new java.util.ArrayList<java.lang.String>();
 
     /**
      * importを指定します。
@@ -63,7 +65,7 @@ public class BlancoValueObjectTsClassStructure {
      * フィールド: [importList]。
      * デフォルト: [new java.util.ArrayList&lt;java.lang.String&gt;()]。
      */
-    private List<java.lang.String> fImportList = new java.util.ArrayList<java.lang.String>();
+    private List<String> fImportList = new java.util.ArrayList<java.lang.String>();
 
     /**
      * source コードの先頭に書かれるコード群です。
@@ -71,7 +73,7 @@ public class BlancoValueObjectTsClassStructure {
      * フィールド: [headerList]。
      * デフォルト: [new java.util.ArrayList&lt;java.lang.String&gt;()]。
      */
-    private List<java.lang.String> fHeaderList = new java.util.ArrayList<java.lang.String>();
+    private List<String> fHeaderList = new java.util.ArrayList<java.lang.String>();
 
     /**
      * クラスのアクセス。通常は public。
@@ -158,7 +160,7 @@ public class BlancoValueObjectTsClassStructure {
      * フィールド: [implementsList]。
      * デフォルト: [new java.util.ArrayList&lt;java.lang.String&gt;()]。
      */
-    private List<java.lang.String> fImplementsList = new java.util.ArrayList<java.lang.String>();
+    private List<String> fImplementsList = new java.util.ArrayList<java.lang.String>();
 
     /**
      * フィールドを記憶するリストを指定します。
@@ -166,7 +168,7 @@ public class BlancoValueObjectTsClassStructure {
      * フィールド: [fieldList]。
      * デフォルト: [new java.util.ArrayList&lt;blanco.valueobjectts.valueobject.BlancoValueObjectTsFieldStructure&gt;()]。
      */
-    private List<blanco.valueobjectts.valueobject.BlancoValueObjectTsFieldStructure> fFieldList = new java.util.ArrayList<blanco.valueobjectts.valueobject.BlancoValueObjectTsFieldStructure>();
+    private List<BlancoValueObjectTsFieldStructure> fFieldList = new java.util.ArrayList<blanco.valueobjectts.valueobject.BlancoValueObjectTsFieldStructure>();
 
     /**
      * ファイル説明
@@ -181,7 +183,7 @@ public class BlancoValueObjectTsClassStructure {
      * フィールド: [constructorArgList]。
      * デフォルト: [new java.util.ArrayList&lt;blanco.cg.valueobject.BlancoCgField&gt;()]。
      */
-    private List<blanco.cg.valueobject.BlancoCgField> fConstructorArgList = new java.util.ArrayList<blanco.cg.valueobject.BlancoCgField>();
+    private List<BlancoCgField> fConstructorArgList = new java.util.ArrayList<blanco.cg.valueobject.BlancoCgField>();
 
     /**
      * フィールド [name] の値を設定します。
@@ -300,7 +302,7 @@ public class BlancoValueObjectTsClassStructure {
      *
      * @param argDescriptionList フィールド[descriptionList]に設定する値。
      */
-    public void setDescriptionList(final List<java.lang.String> argDescriptionList) {
+    public void setDescriptionList(final List<String> argDescriptionList) {
         fDescriptionList = argDescriptionList;
     }
 
@@ -312,7 +314,7 @@ public class BlancoValueObjectTsClassStructure {
      *
      * @return フィールド[descriptionList]から取得した値。
      */
-    public List<java.lang.String> getDescriptionList() {
+    public List<String> getDescriptionList() {
         return fDescriptionList;
     }
 
@@ -323,7 +325,7 @@ public class BlancoValueObjectTsClassStructure {
      *
      * @param argAnnotationList フィールド[annotationList]に設定する値。
      */
-    public void setAnnotationList(final List<java.lang.String> argAnnotationList) {
+    public void setAnnotationList(final List<String> argAnnotationList) {
         fAnnotationList = argAnnotationList;
     }
 
@@ -335,7 +337,7 @@ public class BlancoValueObjectTsClassStructure {
      *
      * @return フィールド[annotationList]から取得した値。
      */
-    public List<java.lang.String> getAnnotationList() {
+    public List<String> getAnnotationList() {
         return fAnnotationList;
     }
 
@@ -346,7 +348,7 @@ public class BlancoValueObjectTsClassStructure {
      *
      * @param argImportList フィールド[importList]に設定する値。
      */
-    public void setImportList(final List<java.lang.String> argImportList) {
+    public void setImportList(final List<String> argImportList) {
         fImportList = argImportList;
     }
 
@@ -358,7 +360,7 @@ public class BlancoValueObjectTsClassStructure {
      *
      * @return フィールド[importList]から取得した値。
      */
-    public List<java.lang.String> getImportList() {
+    public List<String> getImportList() {
         return fImportList;
     }
 
@@ -369,7 +371,7 @@ public class BlancoValueObjectTsClassStructure {
      *
      * @param argHeaderList フィールド[headerList]に設定する値。
      */
-    public void setHeaderList(final List<java.lang.String> argHeaderList) {
+    public void setHeaderList(final List<String> argHeaderList) {
         fHeaderList = argHeaderList;
     }
 
@@ -381,7 +383,7 @@ public class BlancoValueObjectTsClassStructure {
      *
      * @return フィールド[headerList]から取得した値。
      */
-    public List<java.lang.String> getHeaderList() {
+    public List<String> getHeaderList() {
         return fHeaderList;
     }
 
@@ -621,7 +623,7 @@ public class BlancoValueObjectTsClassStructure {
      *
      * @param argImplementsList フィールド[implementsList]に設定する値。
      */
-    public void setImplementsList(final List<java.lang.String> argImplementsList) {
+    public void setImplementsList(final List<String> argImplementsList) {
         fImplementsList = argImplementsList;
     }
 
@@ -633,7 +635,7 @@ public class BlancoValueObjectTsClassStructure {
      *
      * @return フィールド[implementsList]から取得した値。
      */
-    public List<java.lang.String> getImplementsList() {
+    public List<String> getImplementsList() {
         return fImplementsList;
     }
 
@@ -644,7 +646,7 @@ public class BlancoValueObjectTsClassStructure {
      *
      * @param argFieldList フィールド[fieldList]に設定する値。
      */
-    public void setFieldList(final List<blanco.valueobjectts.valueobject.BlancoValueObjectTsFieldStructure> argFieldList) {
+    public void setFieldList(final List<BlancoValueObjectTsFieldStructure> argFieldList) {
         fFieldList = argFieldList;
     }
 
@@ -656,7 +658,7 @@ public class BlancoValueObjectTsClassStructure {
      *
      * @return フィールド[fieldList]から取得した値。
      */
-    public List<blanco.valueobjectts.valueobject.BlancoValueObjectTsFieldStructure> getFieldList() {
+    public List<BlancoValueObjectTsFieldStructure> getFieldList() {
         return fFieldList;
     }
 
@@ -689,7 +691,7 @@ public class BlancoValueObjectTsClassStructure {
      *
      * @param argConstructorArgList フィールド[constructorArgList]に設定する値。
      */
-    public void setConstructorArgList(final List<blanco.cg.valueobject.BlancoCgField> argConstructorArgList) {
+    public void setConstructorArgList(final List<BlancoCgField> argConstructorArgList) {
         fConstructorArgList = argConstructorArgList;
     }
 
@@ -701,7 +703,7 @@ public class BlancoValueObjectTsClassStructure {
      *
      * @return フィールド[constructorArgList]から取得した値。
      */
-    public List<blanco.cg.valueobject.BlancoCgField> getConstructorArgList() {
+    public List<BlancoCgField> getConstructorArgList() {
         return fConstructorArgList;
     }
 
@@ -782,48 +784,16 @@ public class BlancoValueObjectTsClassStructure {
         target.fDescription = this.fDescription;
         // Name: fDescriptionList
         // Type: java.util.List
-        if (this.fDescriptionList != null) {
-            final java.util.Iterator<java.lang.String> iterator = this.fDescriptionList.iterator();
-            for (; iterator.hasNext();) {
-                java.lang.String loopSource = iterator.next();
-                java.lang.String loopTarget = null;
-                loopTarget = loopSource;
-                target.fDescriptionList.add(loopTarget);
-            }
-        }
+        // フィールド[fDescriptionList]はサポート外の型[java.util.Listjava.lang.String]です。
         // Name: fAnnotationList
         // Type: java.util.List
-        if (this.fAnnotationList != null) {
-            final java.util.Iterator<java.lang.String> iterator = this.fAnnotationList.iterator();
-            for (; iterator.hasNext();) {
-                java.lang.String loopSource = iterator.next();
-                java.lang.String loopTarget = null;
-                loopTarget = loopSource;
-                target.fAnnotationList.add(loopTarget);
-            }
-        }
+        // フィールド[fAnnotationList]はサポート外の型[java.util.Listjava.lang.String]です。
         // Name: fImportList
         // Type: java.util.List
-        if (this.fImportList != null) {
-            final java.util.Iterator<java.lang.String> iterator = this.fImportList.iterator();
-            for (; iterator.hasNext();) {
-                java.lang.String loopSource = iterator.next();
-                java.lang.String loopTarget = null;
-                loopTarget = loopSource;
-                target.fImportList.add(loopTarget);
-            }
-        }
+        // フィールド[fImportList]はサポート外の型[java.util.Listjava.lang.String]です。
         // Name: fHeaderList
         // Type: java.util.List
-        if (this.fHeaderList != null) {
-            final java.util.Iterator<java.lang.String> iterator = this.fHeaderList.iterator();
-            for (; iterator.hasNext();) {
-                java.lang.String loopSource = iterator.next();
-                java.lang.String loopTarget = null;
-                loopTarget = loopSource;
-                target.fHeaderList.add(loopTarget);
-            }
-        }
+        // フィールド[fHeaderList]はサポート外の型[java.util.Listjava.lang.String]です。
         // Name: fAccess
         // Type: java.lang.String
         target.fAccess = this.fAccess;
@@ -856,39 +826,15 @@ public class BlancoValueObjectTsClassStructure {
         target.fExtends = this.fExtends;
         // Name: fImplementsList
         // Type: java.util.List
-        if (this.fImplementsList != null) {
-            final java.util.Iterator<java.lang.String> iterator = this.fImplementsList.iterator();
-            for (; iterator.hasNext();) {
-                java.lang.String loopSource = iterator.next();
-                java.lang.String loopTarget = null;
-                loopTarget = loopSource;
-                target.fImplementsList.add(loopTarget);
-            }
-        }
+        // フィールド[fImplementsList]はサポート外の型[java.util.Listjava.lang.String]です。
         // Name: fFieldList
         // Type: java.util.List
-        if (this.fFieldList != null) {
-            final java.util.Iterator<blanco.valueobjectts.valueobject.BlancoValueObjectTsFieldStructure> iterator = this.fFieldList.iterator();
-            for (; iterator.hasNext();) {
-                blanco.valueobjectts.valueobject.BlancoValueObjectTsFieldStructure loopSource = iterator.next();
-                blanco.valueobjectts.valueobject.BlancoValueObjectTsFieldStructure loopTarget = null;
-                // フィールド[generics]はサポート外の型[blanco.valueobjectts.valueobject.BlancoValueObjectTsFieldStructure]です。
-                target.fFieldList.add(loopTarget);
-            }
-        }
+        // フィールド[fFieldList]はサポート外の型[java.util.Listblanco.valueobjectts.valueobject.BlancoValueObjectTsFieldStructure]です。
         // Name: fFileDescription
         // Type: java.lang.String
         target.fFileDescription = this.fFileDescription;
         // Name: fConstructorArgList
         // Type: java.util.List
-        if (this.fConstructorArgList != null) {
-            final java.util.Iterator<blanco.cg.valueobject.BlancoCgField> iterator = this.fConstructorArgList.iterator();
-            for (; iterator.hasNext();) {
-                blanco.cg.valueobject.BlancoCgField loopSource = iterator.next();
-                blanco.cg.valueobject.BlancoCgField loopTarget = null;
-                // フィールド[generics]はサポート外の型[blanco.cg.valueobject.BlancoCgField]です。
-                target.fConstructorArgList.add(loopTarget);
-            }
-        }
+        // フィールド[fConstructorArgList]はサポート外の型[java.util.Listblanco.cg.valueobject.BlancoCgField]です。
     }
 }

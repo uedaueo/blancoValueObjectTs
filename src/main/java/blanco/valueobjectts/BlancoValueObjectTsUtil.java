@@ -5,10 +5,7 @@ import blanco.valueobjectts.valueobject.BlancoValueObjectTsClassStructure;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 /**
  * BlancoValueObject で作成されているObjectの一覧を XML から取得し，保持しておきます
@@ -18,15 +15,15 @@ import java.util.List;
 public class BlancoValueObjectTsUtil {
 
     static public boolean isVerbose = false;
+    public static HashMap<String, BlancoValueObjectTsClassStructure> objects = new HashMap<>();
 
     static public void processValueObjects(
-            final BlancoValueObjectTsProcessInput input,
-            final List<BlancoValueObjectTsClassStructure> argListClassStructures) throws IOException {
+            final BlancoValueObjectTsProcessInput input) throws IOException {
         if (isVerbose) {
             System.out.println("BlancoValueObjectTsUtil : processValueObjects start !");
         }
 
-        /* tmpdir は除外 */
+        /* tmpdir はユニーク */
         String baseTmpdir = input.getTmpdir();
         /* searchTmpdir はカンマ区切り */
         String tmpTmpdirs = input.getSearchTmpdir();
@@ -38,15 +35,15 @@ public class BlancoValueObjectTsUtil {
         if (searchTmpdirList == null) {
             searchTmpdirList = new ArrayList<>();
         }
+        searchTmpdirList.add(baseTmpdir);
 
         for (String tmpdir : searchTmpdirList) {
-            searchTmpdir(tmpdir.trim(), argListClassStructures);
+            searchTmpdir(tmpdir.trim());
         }
     }
 
     static private void searchTmpdir(
-            String tmpdir,
-            final List<BlancoValueObjectTsClassStructure> argListClassStructures) {
+            String tmpdir) {
 
         // XML化された中間ファイルから情報を読み込む
         final File[] fileMeta3 = new File(tmpdir
@@ -66,7 +63,7 @@ public class BlancoValueObjectTsUtil {
             }
 
             BlancoValueObjectTsXmlParser parser = new BlancoValueObjectTsXmlParser();
-//            parser.setVerbose(this.isVerbose());
+            parser.setVerbose(isVerbose);
             /*
              * まず始めにすべてのシートを検索して，クラス名とpackage名のリストを作ります．
              * php形式の定義書では，クラスを指定する際にpackage名が指定されていないからです．
@@ -80,7 +77,7 @@ public class BlancoValueObjectTsUtil {
                         if (isVerbose) {
                             System.out.println("processValueObjects: " + structure.getName());
                         }
-                        argListClassStructures.add(structure);
+                        objects.put(structure.getName(), structure);
                     } else {
                         System.out.println("processValueObjects: a structure is NULL!!!");
                     }

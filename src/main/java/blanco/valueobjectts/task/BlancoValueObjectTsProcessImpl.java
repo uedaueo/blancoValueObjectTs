@@ -11,6 +11,7 @@ package blanco.valueobjectts.task;
 
 import blanco.cg.BlancoCgSupportedLang;
 import blanco.commons.util.BlancoStringUtil;
+import blanco.valueobject.BlancoValueObjectUtil;
 import blanco.valueobjectts.*;
 import blanco.valueobjectts.message.BlancoValueObjectTsMessage;
 import blanco.valueobjectts.task.valueobject.BlancoValueObjectTsProcessInput;
@@ -119,11 +120,12 @@ public class BlancoValueObjectTsProcessImpl implements BlancoValueObjectTsProces
                     .listFiles();
 
         /*
-         * まず始めにすべてのシートを検索して，クラス名とpackage名のリストを作ります．
-         * php形式の定義書では，クラスを指定する際にpackage名が指定されていないからです．
+         * まず始めにすべてのシートを検索して，クラス名からstructureのリストを作ります。
+         * php形式の定義書では，クラスを指定する際にpackage名が指定されていないからです。
+         * Typescript ではオブジェクトの配置ディレクトリはstructureから検索しなければならないので、パッケージ名のリストでは不十分です。
          */
-            BlancoValueObjectTsXmlParser.classList =
-                    BlancoValueObjectTsXmlParser.createClassListFromSheets(fileMeta2);
+            BlancoValueObjectTsUtil.isVerbose = input.getVerbose();
+            BlancoValueObjectTsUtil.processValueObjects(input);
 
             /*
              * listClass が指定されている場合は、自動生成したクラスの一覧を
@@ -135,12 +137,6 @@ public class BlancoValueObjectTsProcessImpl implements BlancoValueObjectTsProces
             List<BlancoValueObjectTsClassStructure> listClassStructures = new ArrayList<>();
             if (listClassName != null && listClassName.length() > 0) {
                 createClassList = true;
-                /*
-                 * ClassList 生成のために、
-                 * searchTmpdir で指定されているディレクトリの情報を収集しておく。
-                 */
-                BlancoValueObjectTsUtil.isVerbose = input.getVerbose();
-                BlancoValueObjectTsUtil.processValueObjects(input, listClassStructures);
             }
 
             // 次にメタディレクトリとして指定されているディレクトリを走査
@@ -171,7 +167,6 @@ public class BlancoValueObjectTsProcessImpl implements BlancoValueObjectTsProces
                         listClassStructures.add(classStructure);
                     }
                 }
-                // 単体試験コードの自動生成機能は 0.9.1以降では削除されました。
             }
 
             /*
