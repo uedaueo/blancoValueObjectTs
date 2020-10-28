@@ -639,7 +639,7 @@ public class BlancoValueObjectTsXmlParser {
                         /*
                          * TypeScript 用 import 情報の作成
                          */
-                        if (objClassStructure.getCreateImportList() && BlancoStringUtil.null2Blank(packageName).length() == 0) {
+                        if (objClassStructure.getCreateImportList() && BlancoStringUtil.null2Blank(packageName).length() > 0) {
                             String targeBasedir = null;
                             if (voStructure != null) {
                                 targeBasedir = voStructure.getBasedir();
