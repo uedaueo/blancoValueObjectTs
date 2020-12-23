@@ -21,7 +21,9 @@ import javax.xml.transform.TransformerException;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class BlancoValueObjectTsProcessImpl implements BlancoValueObjectTsProcess {
 
@@ -125,7 +127,7 @@ public class BlancoValueObjectTsProcessImpl implements BlancoValueObjectTsProces
          * Typescript ではオブジェクトの配置ディレクトリはstructureから検索しなければならないので、パッケージ名のリストでは不十分です。
          */
             BlancoValueObjectTsUtil.isVerbose = input.getVerbose();
-            BlancoValueObjectTsUtil.processValueObjects(input);
+            BlancoValueObjectTsUtil.processValueObjects(input.getTmpdir(), input.getSearchTmpdir(), BlancoValueObjectTsUtil.objects);
 
             /*
              * listClass が指定されている場合は、自動生成したクラスの一覧を
@@ -178,6 +180,11 @@ public class BlancoValueObjectTsProcessImpl implements BlancoValueObjectTsProces
                     System.out.println("[WARN] listClass is specified but no meta file. : " + listClassName);
                     return BlancoValueObjectTsBatchProcess.END_SUCCESS;
                 }
+
+                // listTmpdir からstructure情報を収集します。
+                Map<String, BlancoValueObjectTsClassStructure> searchListStructures = new HashMap<>();
+                BlancoValueObjectTsUtil.processValueObjects(null, input.getListTmpdir(), searchListStructures);
+                listClassStructures.addAll(searchListStructures.values());
 
                 final BlancoValueObjectTsXml2TypeScriptClass xml2Class = new BlancoValueObjectTsXml2TypeScriptClass();
                 xml2Class.setEncoding(input.getEncoding());

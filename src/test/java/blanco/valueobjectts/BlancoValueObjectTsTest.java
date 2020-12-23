@@ -74,7 +74,7 @@ public class BlancoValueObjectTsTest {
         input.setVerbose(true);
         input.setListClass("ListClassSample");
         input.setGenerateToJson(true);
-        input.setSearchTmpdir("tmpListTarget");
+        input.setListTmpdir("tmpListTarget");
 
         imple = new BlancoValueObjectTsProcessImpl();
         try {

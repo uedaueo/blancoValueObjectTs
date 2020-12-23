@@ -98,7 +98,14 @@ public class BlancoValueObjectTsProcessInput {
     private boolean fGenerateToJson = false;
 
     /**
-     * listClassの対象とするtmpディレクトリをカンマ区切りで指定します。指定ディレクトリ直下のvalueobjectディレクトリの下にxmlを探しにいきます。
+     * listClassの対象とするtmpディレクトリをカンマ区切りで指定します。指定ディレクトリ直下のvalueobjectディレクトリの下にxmlを探しにいきます。この回の生成で対象となるmetadirのクラスは全て対象となりますので、ここには指定しません。
+     *
+     * フィールド: [listTmpdir]。
+     */
+    private String fListTmpdir;
+
+    /**
+     * import 文自動生成時に package を検索にいくtmpdir をカンマ区切りで指定します。
      *
      * フィールド: [searchTmpdir]。
      */
@@ -378,9 +385,31 @@ public class BlancoValueObjectTsProcessInput {
     }
 
     /**
+     * フィールド [listTmpdir] の値を設定します。
+     *
+     * フィールドの説明: [listClassの対象とするtmpディレクトリをカンマ区切りで指定します。指定ディレクトリ直下のvalueobjectディレクトリの下にxmlを探しにいきます。この回の生成で対象となるmetadirのクラスは全て対象となりますので、ここには指定しません。]。
+     *
+     * @param argListTmpdir フィールド[listTmpdir]に設定する値。
+     */
+    public void setListTmpdir(final String argListTmpdir) {
+        fListTmpdir = argListTmpdir;
+    }
+
+    /**
+     * フィールド [listTmpdir] の値を取得します。
+     *
+     * フィールドの説明: [listClassの対象とするtmpディレクトリをカンマ区切りで指定します。指定ディレクトリ直下のvalueobjectディレクトリの下にxmlを探しにいきます。この回の生成で対象となるmetadirのクラスは全て対象となりますので、ここには指定しません。]。
+     *
+     * @return フィールド[listTmpdir]から取得した値。
+     */
+    public String getListTmpdir() {
+        return fListTmpdir;
+    }
+
+    /**
      * フィールド [searchTmpdir] の値を設定します。
      *
-     * フィールドの説明: [listClassの対象とするtmpディレクトリをカンマ区切りで指定します。指定ディレクトリ直下のvalueobjectディレクトリの下にxmlを探しにいきます。]。
+     * フィールドの説明: [import 文自動生成時に package を検索にいくtmpdir をカンマ区切りで指定します。]。
      *
      * @param argSearchTmpdir フィールド[searchTmpdir]に設定する値。
      */
@@ -391,7 +420,7 @@ public class BlancoValueObjectTsProcessInput {
     /**
      * フィールド [searchTmpdir] の値を取得します。
      *
-     * フィールドの説明: [listClassの対象とするtmpディレクトリをカンマ区切りで指定します。指定ディレクトリ直下のvalueobjectディレクトリの下にxmlを探しにいきます。]。
+     * フィールドの説明: [import 文自動生成時に package を検索にいくtmpdir をカンマ区切りで指定します。]。
      *
      * @return フィールド[searchTmpdir]から取得した値。
      */
@@ -426,6 +455,7 @@ public class BlancoValueObjectTsProcessInput {
         buf.append(",listClass=" + fListClass);
         buf.append(",lineSeparator=" + fLineSeparator);
         buf.append(",generateToJson=" + fGenerateToJson);
+        buf.append(",listTmpdir=" + fListTmpdir);
         buf.append(",searchTmpdir=" + fSearchTmpdir);
         buf.append("]");
         return buf.toString();
@@ -485,6 +515,9 @@ public class BlancoValueObjectTsProcessInput {
         // Name: fGenerateToJson
         // Type: boolean
         target.fGenerateToJson = this.fGenerateToJson;
+        // Name: fListTmpdir
+        // Type: java.lang.String
+        target.fListTmpdir = this.fListTmpdir;
         // Name: fSearchTmpdir
         // Type: java.lang.String
         target.fSearchTmpdir = this.fSearchTmpdir;

@@ -190,6 +190,10 @@ public class BlancoValueObjectTsXml2TypeScriptClass {
             fieldStructure.setDefault("new " + className + "()");
             fieldStructure.setDescription(classDescription);
 
+            if (isVerbose()) {
+                System.out.println("processListClass: " + propertyName + ": " + classType);
+            }
+
             /*
              * import list の作成
              */

@@ -540,6 +540,26 @@ public class BlancoValueObjectTsResourceBundle {
     }
 
     /**
+     * bundle[BlancoValueObjectTs], key[XML2SOURCE_FILE.ERR007]
+     *
+     * [クラス名検索用オブジェクトを保管するための引数にnullが与えられました。] (ja)<br>
+     *
+     * @return key[XML2SOURCE_FILE.ERR007]に対応する値。外部から読み込みができない場合には、定義書の値を戻します。必ずnull以外の値が戻ります。
+     */
+    public String getXml2sourceFileErr007() {
+        // 初期値として定義書の値を利用します。
+        String strFormat = "クラス名検索用オブジェクトを保管するための引数にnullが与えられました。";
+        try {
+            if (fResourceBundle != null) {
+                strFormat = fResourceBundle.getString("XML2SOURCE_FILE.ERR007");
+            }
+        } catch (MissingResourceException ex) {
+        }
+        // 置換文字列はひとつもありません。
+        return strFormat;
+    }
+
+    /**
      * bundle[BlancoValueObjectTs], key[XML2SOURCE_FILE.FIELD.NAME]
      *
      * [フィールド [{0}]] (ja)<br>

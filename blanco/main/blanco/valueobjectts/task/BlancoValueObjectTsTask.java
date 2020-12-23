@@ -84,6 +84,11 @@ public class BlancoValueObjectTsTask extends Task {
     protected boolean fIsFieldGenerateToJsonProcessed = false;
 
     /**
+     * フィールド [listTmpdir] に値がセットされたかどうか。
+     */
+    protected boolean fIsFieldListTmpdirProcessed = false;
+
+    /**
      * フィールド [searchTmpdir] に値がセットされたかどうか。
      */
     protected boolean fIsFieldSearchTmpdirProcessed = false;
@@ -395,10 +400,35 @@ public class BlancoValueObjectTsTask extends Task {
     }
 
     /**
-     * Antタスクの[searchTmpdir]アトリビュートのセッターメソッド。
+     * Antタスクの[listTmpdir]アトリビュートのセッターメソッド。
      *
      * 項目番号: 12<br>
-     * listClassの対象とするtmpディレクトリをカンマ区切りで指定します。指定ディレクトリ直下のvalueobjectディレクトリの下にxmlを探しにいきます。<br>
+     * listClassの対象とするtmpディレクトリをカンマ区切りで指定します。指定ディレクトリ直下のvalueobjectディレクトリの下にxmlを探しにいきます。この回の生成で対象となるmetadirのクラスは全て対象となりますので、ここには指定しません。<br>
+     *
+     * @param arg セットしたい値
+     */
+    public void setListTmpdir(final String arg) {
+        fInput.setListTmpdir(arg);
+        fIsFieldListTmpdirProcessed = true;
+    }
+
+    /**
+     * Antタスクの[listTmpdir]アトリビュートのゲッターメソッド。
+     *
+     * 項目番号: 12<br>
+     * listClassの対象とするtmpディレクトリをカンマ区切りで指定します。指定ディレクトリ直下のvalueobjectディレクトリの下にxmlを探しにいきます。この回の生成で対象となるmetadirのクラスは全て対象となりますので、ここには指定しません。<br>
+     *
+     * @return このフィールドの値
+     */
+    public String getListTmpdir() {
+        return fInput.getListTmpdir();
+    }
+
+    /**
+     * Antタスクの[searchTmpdir]アトリビュートのセッターメソッド。
+     *
+     * 項目番号: 13<br>
+     * import 文自動生成時に package を検索にいくtmpdir をカンマ区切りで指定します。<br>
      *
      * @param arg セットしたい値
      */
@@ -410,8 +440,8 @@ public class BlancoValueObjectTsTask extends Task {
     /**
      * Antタスクの[searchTmpdir]アトリビュートのゲッターメソッド。
      *
-     * 項目番号: 12<br>
-     * listClassの対象とするtmpディレクトリをカンマ区切りで指定します。指定ディレクトリ直下のvalueobjectディレクトリの下にxmlを探しにいきます。<br>
+     * 項目番号: 13<br>
+     * import 文自動生成時に package を検索にいくtmpdir をカンマ区切りで指定します。<br>
      *
      * @return このフィールドの値
      */
@@ -446,6 +476,7 @@ public class BlancoValueObjectTsTask extends Task {
             System.out.println("- listClass:[" + getListClass() + "]");
             System.out.println("- lineSeparator:[" + getLineSeparator() + "]");
             System.out.println("- generateToJson:[" + getGenerateToJson() + "]");
+            System.out.println("- listTmpdir:[" + getListTmpdir() + "]");
             System.out.println("- searchTmpdir:[" + getSearchTmpdir() + "]");
         }
 

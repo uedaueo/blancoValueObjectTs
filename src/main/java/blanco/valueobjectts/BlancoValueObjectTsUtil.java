@@ -1,5 +1,6 @@
 package blanco.valueobjectts;
 
+import blanco.valueobjectts.resourcebundle.BlancoValueObjectTsResourceBundle;
 import blanco.valueobjectts.task.valueobject.BlancoValueObjectTsProcessInput;
 import blanco.valueobjectts.valueobject.BlancoValueObjectTsClassStructure;
 
@@ -15,35 +16,48 @@ import java.util.*;
 public class BlancoValueObjectTsUtil {
 
     static public boolean isVerbose = false;
-    public static HashMap<String, BlancoValueObjectTsClassStructure> objects = new HashMap<>();
+    static public Map<String, BlancoValueObjectTsClassStructure> objects = new HashMap<>();
+
+    /**
+     * blancoValueObjectのリソースバンドルオブジェクト。
+     */
+    static private final BlancoValueObjectTsResourceBundle fBundle = new BlancoValueObjectTsResourceBundle();
 
     static public void processValueObjects(
-            final BlancoValueObjectTsProcessInput input) throws IOException {
+            final String baseTmpdir,
+            final String searchTmpdirs,
+            final Map<String, BlancoValueObjectTsClassStructure> argObjects
+    ) throws IOException {
         if (isVerbose) {
-            System.out.println("BlancoValueObjectTsUtil : processValueObjects start !");
+            System.out.println("BlancoValueObjectTsUtil : processValueObjects start !, tmpDir = " + baseTmpdir + ", serachTmpdir = " + searchTmpdirs);
         }
 
-        /* tmpdir はユニーク */
-        String baseTmpdir = input.getTmpdir();
+        if (argObjects == null) {
+            throw new IllegalArgumentException(fBundle.getXml2sourceFileErr007());
+        }
+
         /* searchTmpdir はカンマ区切り */
-        String tmpTmpdirs = input.getSearchTmpdir();
         List<String> searchTmpdirList = null;
-        if (tmpTmpdirs != null && !tmpTmpdirs.equals(baseTmpdir)) {
-            String[] searchTmpdirs = tmpTmpdirs.split(",");
-            searchTmpdirList = new ArrayList<>(Arrays.asList(searchTmpdirs));
+        if (searchTmpdirs != null && !searchTmpdirs.equals(baseTmpdir)) {
+            String[] searchTmpdirArray = searchTmpdirs.split(",");
+            searchTmpdirList = new ArrayList<>(Arrays.asList(searchTmpdirArray));
         }
         if (searchTmpdirList == null) {
             searchTmpdirList = new ArrayList<>();
         }
-        searchTmpdirList.add(baseTmpdir);
+        if (baseTmpdir != null) {
+            searchTmpdirList.add(baseTmpdir);
+        }
 
         for (String tmpdir : searchTmpdirList) {
-            searchTmpdir(tmpdir.trim());
+            searchTmpdir(tmpdir.trim(), argObjects);
         }
     }
 
     static private void searchTmpdir(
-            String tmpdir) {
+            final String tmpdir,
+            final Map<String, BlancoValueObjectTsClassStructure> argObjects
+    ) {
 
         // XML化された中間ファイルから情報を読み込む
         final File[] fileMeta3 = new File(tmpdir
@@ -77,7 +91,7 @@ public class BlancoValueObjectTsUtil {
                         if (isVerbose) {
                             System.out.println("processValueObjects: " + structure.getName());
                         }
-                        objects.put(structure.getName(), structure);
+                        argObjects.put(structure.getName(), structure);
                     } else {
                         System.out.println("processValueObjects: a structure is NULL!!!");
                     }
