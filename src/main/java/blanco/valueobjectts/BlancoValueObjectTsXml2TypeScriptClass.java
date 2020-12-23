@@ -768,7 +768,16 @@ public class BlancoValueObjectTsXml2TypeScriptClass {
 
         final List<java.lang.String> listLine = method.getLineList();
 
-        listLine.add("return {");
+        String toJsonStart = "return {";
+        String toJsonEnd = "};";
+
+        /* 親クラスが存在する場合はそれも含める */
+        if (BlancoStringUtil.null2Blank(argClassStructure.getExtends()).length() > 0) {
+            toJsonStart = "return Object.assign(super.toJSON(), {";
+            toJsonEnd = "});";
+        }
+
+        listLine.add(toJsonStart);
 
         String line = "";
         for (int indexField = 0; indexField < argClassStructure.getFieldList()
@@ -786,7 +795,7 @@ public class BlancoValueObjectTsXml2TypeScriptClass {
         if (line.length() > 0) {
             listLine.add(line);
         }
-        listLine.add("};");
+        listLine.add(toJsonEnd);
     }
 
     /**

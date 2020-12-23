@@ -35,6 +35,7 @@ public class BlancoValueObjectTsTest {
         input.setTabs(2);
         input.setVerbose(true);
         input.setLineSeparator("CR");
+        input.setGenerateToJson(true);
 
         BlancoValueObjectTsProcessImpl imple = new BlancoValueObjectTsProcessImpl();
         try {
