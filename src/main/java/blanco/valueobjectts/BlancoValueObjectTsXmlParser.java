@@ -43,6 +43,13 @@ public class BlancoValueObjectTsXmlParser {
     public boolean isVerbose() {
         return fVerbose;
     }
+    private boolean defaultGenerateToJson = false;
+    public boolean isDefaultGenerateToJson() {
+        return this.defaultGenerateToJson;
+    }
+    public void setDefaultGenerateToJson(boolean defaultGenerateToJson) {
+        this.defaultGenerateToJson = defaultGenerateToJson;
+    }
 
     /**
      * blancoValueObjectのリソースバンドルオブジェクト。
@@ -162,6 +169,8 @@ public class BlancoValueObjectTsXmlParser {
             }
 
             if (objClassStructure != null) {
+                // toJSON を生成するかどうかを覚えておく。
+                objClassStructure.setGenerateToJson(this.isDefaultGenerateToJson());
                 // 得られた情報を記憶します。
                 listStructure.add(objClassStructure);
             }

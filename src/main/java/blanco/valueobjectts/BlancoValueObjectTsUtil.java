@@ -16,6 +16,8 @@ import java.util.*;
 public class BlancoValueObjectTsUtil {
 
     static public boolean isVerbose = false;
+    static public boolean createToJson = false;
+
     static public Map<String, BlancoValueObjectTsClassStructure> objects = new HashMap<>();
 
     /**
@@ -100,5 +102,27 @@ public class BlancoValueObjectTsUtil {
                 System.out.println("processValueObjects: structures are NULL!!!");
             }
         }
+    }
+
+
+    /**
+     * Make canonical classname into Simple.
+     *
+     * @param argClassNameCanon
+     * @return simpleName
+     */
+    static public String getSimpleClassName(final String argClassNameCanon) {
+        if (argClassNameCanon == null) {
+            return "";
+        }
+
+        String simpleName = "";
+        final int findLastDot = argClassNameCanon.lastIndexOf('.');
+        if (findLastDot == -1) {
+            simpleName = argClassNameCanon;
+        } else if (findLastDot != argClassNameCanon.length() - 1) {
+            simpleName = argClassNameCanon.substring(findLastDot + 1);
+        }
+        return simpleName;
     }
 }

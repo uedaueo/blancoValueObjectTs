@@ -142,6 +142,7 @@ public class BlancoValueObjectTsXml2TypeScriptClass {
             final File argDirectoryTarget) throws IOException {
         BlancoValueObjectTsXmlParser parser = new BlancoValueObjectTsXmlParser();
         parser.setVerbose(this.isVerbose());
+        parser.setDefaultGenerateToJson(this.isDefaultGenerateToJson());
         final BlancoValueObjectTsClassStructure[] structures = parser.parse(argMetaXmlSourceFile);
         for (int index = 0; index < structures.length; index++) {
             BlancoValueObjectTsClassStructure classStructure = structures[index];
@@ -771,10 +772,38 @@ public class BlancoValueObjectTsXml2TypeScriptClass {
         String toJsonStart = "return {";
         String toJsonEnd = "};";
 
-        /* 親クラスが存在する場合はそれも含める */
+        /*
+         * 親クラスが存在する場合はそれも含める
+         * ただし親クラスに toJSON が存在しない場合は含めない
+         */
         if (BlancoStringUtil.null2Blank(argClassStructure.getExtends()).length() > 0) {
-            toJsonStart = "return Object.assign(super.toJSON(), {";
-            toJsonEnd = "});";
+            String className = BlancoValueObjectTsUtil.getSimpleClassName(argClassStructure.getExtends());
+            System.out.println("toJSON ? className = " + className);
+            BlancoValueObjectTsClassStructure voStructure = BlancoValueObjectTsUtil.objects.get(className);
+            boolean superHasToJson = false;
+            /*
+             * Excelシートにはクラス全体としてのgenerateToJSONフラグはない。
+             * ant task のオプションで与えるので、この回の生成は全て同じフラグで
+             * あるという前提にする。
+             */
+            if (voStructure != null && this.isDefaultGenerateToJson()) {
+                System.out.println("### Super Class = " + voStructure.getName());
+                for (BlancoValueObjectTsFieldStructure fieldStructure : voStructure.getFieldList()) {
+                    System.out.println("Exclude toJSON ? = " + fieldStructure.getExcludeToJson());
+                    if (!fieldStructure.getExcludeToJson()) {
+                        /* ひとつでも toJson 非除外のフィールドがあれば */
+                        superHasToJson = true;
+                        break;
+                    }
+                }
+            }
+
+            if (superHasToJson) {
+                toJsonStart = "return Object.assign(super.toJSON(), {";
+                toJsonEnd = "});";
+            } else {
+                System.out.println("!!! Skip super toJSON !!!");
+            }
         }
 
         listLine.add(toJsonStart);

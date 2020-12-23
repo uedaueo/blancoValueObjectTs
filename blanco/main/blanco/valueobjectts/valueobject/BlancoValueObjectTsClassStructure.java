@@ -186,6 +186,14 @@ public class BlancoValueObjectTsClassStructure {
     private List<BlancoCgField> fConstructorArgList = new java.util.ArrayList<blanco.cg.valueobject.BlancoCgField>();
 
     /**
+     * toJSONメソッドを生成するかどうか。このフラグはant taskのオプションとして供給される。
+     *
+     * フィールド: [generateToJson]。
+     * デフォルト: [false]。
+     */
+    private Boolean fGenerateToJson = false;
+
+    /**
      * フィールド [name] の値を設定します。
      *
      * フィールドの説明: [フィールド名を指定します。必須項目です。]。
@@ -708,6 +716,29 @@ public class BlancoValueObjectTsClassStructure {
     }
 
     /**
+     * フィールド [generateToJson] の値を設定します。
+     *
+     * フィールドの説明: [toJSONメソッドを生成するかどうか。このフラグはant taskのオプションとして供給される。]。
+     *
+     * @param argGenerateToJson フィールド[generateToJson]に設定する値。
+     */
+    public void setGenerateToJson(final Boolean argGenerateToJson) {
+        fGenerateToJson = argGenerateToJson;
+    }
+
+    /**
+     * フィールド [generateToJson] の値を取得します。
+     *
+     * フィールドの説明: [toJSONメソッドを生成するかどうか。このフラグはant taskのオプションとして供給される。]。
+     * デフォルト: [false]。
+     *
+     * @return フィールド[generateToJson]から取得した値。
+     */
+    public Boolean getGenerateToJson() {
+        return fGenerateToJson;
+    }
+
+    /**
      * このバリューオブジェクトの文字列表現を取得します。
      *
      * <P>使用上の注意</P>
@@ -745,6 +776,7 @@ public class BlancoValueObjectTsClassStructure {
         buf.append(",fieldList=" + fFieldList);
         buf.append(",fileDescription=" + fFileDescription);
         buf.append(",constructorArgList=" + fConstructorArgList);
+        buf.append(",generateToJson=" + fGenerateToJson);
         buf.append("]");
         return buf.toString();
     }
@@ -836,5 +868,8 @@ public class BlancoValueObjectTsClassStructure {
         // Name: fConstructorArgList
         // Type: java.util.List
         // フィールド[fConstructorArgList]はサポート外の型[java.util.Listblanco.cg.valueobject.BlancoCgField]です。
+        // Name: fGenerateToJson
+        // Type: java.lang.Boolean
+        target.fGenerateToJson = this.fGenerateToJson;
     }
 }
