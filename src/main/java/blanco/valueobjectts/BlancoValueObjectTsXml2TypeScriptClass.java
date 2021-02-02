@@ -381,7 +381,7 @@ public class BlancoValueObjectTsXml2TypeScriptClass {
             buildMethodGet(argClassStructure, fieldStructure);
         }
 
-        if (toJson && this.defaultGenerateToJson) {
+        if ((toJson && this.defaultGenerateToJson) || argClassStructure.getGenerateEmptyToJSON()) {
             buildMethodToJSON(argClassStructure);
         }
 
@@ -776,7 +776,7 @@ public class BlancoValueObjectTsXml2TypeScriptClass {
          * 親クラスが存在する場合はそれも含める
          * ただし親クラスに toJSON が存在しない場合は含めない
          */
-        if (BlancoStringUtil.null2Blank(argClassStructure.getExtends()).length() > 0) {
+        if (BlancoStringUtil.null2Blank(argClassStructure.getExtends()).length() > 0 && !argClassStructure.getGenerateEmptyToJSON()) {
             String className = BlancoValueObjectTsUtil.getSimpleClassName(argClassStructure.getExtends());
             System.out.println("toJSON ? className = " + className);
             BlancoValueObjectTsClassStructure voStructure = BlancoValueObjectTsUtil.objects.get(className);
@@ -809,8 +809,7 @@ public class BlancoValueObjectTsXml2TypeScriptClass {
         listLine.add(toJsonStart);
 
         String line = "";
-        for (int indexField = 0; indexField < argClassStructure.getFieldList()
-                .size(); indexField++) {
+        for (int indexField = 0; indexField < argClassStructure.getFieldList().size() && !argClassStructure.getGenerateEmptyToJSON(); indexField++) {
             final BlancoValueObjectTsFieldStructure field = (BlancoValueObjectTsFieldStructure) argClassStructure
                     .getFieldList().get(indexField);
 

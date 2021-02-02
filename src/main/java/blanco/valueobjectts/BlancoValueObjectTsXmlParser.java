@@ -424,6 +424,9 @@ public class BlancoValueObjectTsXmlParser {
         objClassStructure.setCreateImportList("true"
                 .equals(BlancoXmlBindingUtil.getTextContent(elementCommon,
                         "createImportList")));
+        objClassStructure.setGenerateEmptyToJSON("true"
+                .equals(BlancoXmlBindingUtil.getTextContent(elementCommon,
+                        "generateEmptyToJSON")));
         objClassStructure
                 .setFieldList(new ArrayList<blanco.valueobjectts.valueobject.BlancoValueObjectTsFieldStructure>());
 

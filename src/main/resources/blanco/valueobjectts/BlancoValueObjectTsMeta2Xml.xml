@@ -132,6 +132,9 @@
         <propertykey name="createImportList" waitX="2">
           <value>import文の自動生成</value>
         </propertykey>
+        <propertykey name="generateEmptyToJSON" waitX="2">
+          <value>空のtoJSONメソッドを生成</value>
+        </propertykey>
 
         <valuemapping>
           <result>true</result>

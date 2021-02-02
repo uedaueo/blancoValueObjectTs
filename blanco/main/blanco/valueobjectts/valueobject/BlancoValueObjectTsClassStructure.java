@@ -194,6 +194,14 @@ public class BlancoValueObjectTsClassStructure {
     private Boolean fGenerateToJson = false;
 
     /**
+     * TRUEが指定された場合に空のtoJSONメソッドを生成します。toJSON生成に関して、他の全てのオプションに優先します。
+     *
+     * フィールド: [generateEmptyToJSON]。
+     * デフォルト: [false]。
+     */
+    private Boolean fGenerateEmptyToJSON = false;
+
+    /**
      * フィールド [name] の値を設定します。
      *
      * フィールドの説明: [フィールド名を指定します。必須項目です。]。
@@ -739,6 +747,29 @@ public class BlancoValueObjectTsClassStructure {
     }
 
     /**
+     * フィールド [generateEmptyToJSON] の値を設定します。
+     *
+     * フィールドの説明: [TRUEが指定された場合に空のtoJSONメソッドを生成します。toJSON生成に関して、他の全てのオプションに優先します。]。
+     *
+     * @param argGenerateEmptyToJSON フィールド[generateEmptyToJSON]に設定する値。
+     */
+    public void setGenerateEmptyToJSON(final Boolean argGenerateEmptyToJSON) {
+        fGenerateEmptyToJSON = argGenerateEmptyToJSON;
+    }
+
+    /**
+     * フィールド [generateEmptyToJSON] の値を取得します。
+     *
+     * フィールドの説明: [TRUEが指定された場合に空のtoJSONメソッドを生成します。toJSON生成に関して、他の全てのオプションに優先します。]。
+     * デフォルト: [false]。
+     *
+     * @return フィールド[generateEmptyToJSON]から取得した値。
+     */
+    public Boolean getGenerateEmptyToJSON() {
+        return fGenerateEmptyToJSON;
+    }
+
+    /**
      * このバリューオブジェクトの文字列表現を取得します。
      *
      * <P>使用上の注意</P>
@@ -777,6 +808,7 @@ public class BlancoValueObjectTsClassStructure {
         buf.append(",fileDescription=" + fFileDescription);
         buf.append(",constructorArgList=" + fConstructorArgList);
         buf.append(",generateToJson=" + fGenerateToJson);
+        buf.append(",generateEmptyToJSON=" + fGenerateEmptyToJSON);
         buf.append("]");
         return buf.toString();
     }
@@ -871,5 +903,8 @@ public class BlancoValueObjectTsClassStructure {
         // Name: fGenerateToJson
         // Type: java.lang.Boolean
         target.fGenerateToJson = this.fGenerateToJson;
+        // Name: fGenerateEmptyToJSON
+        // Type: java.lang.Boolean
+        target.fGenerateEmptyToJSON = this.fGenerateEmptyToJSON;
     }
 }
