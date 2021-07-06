@@ -29,26 +29,26 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * バリューオブジェクト用中間XMLファイルから TypeScript ソースコードを自動生成するクラス。
+ * A class that auto-generates TypeScript source code from intermediate XML files for value objects.
  *
- * BlancoValueObjectTsの主たるクラスのひとつです。
+ * This is one of the main classes of BlancoValueObjectTs.
  *
  * @author IGA Tosiki
  * @author tueda
  */
 public class BlancoValueObjectTsXml2TypeScriptClass {
     /**
-     * メッセージ。
+     * A message.
      */
     private final BlancoValueObjectTsMessage fMsg = new BlancoValueObjectTsMessage();
 
     /**
-     * blancoValueObjectのリソースバンドルオブジェクト。
+     * Resource bundle object for blancoValueObject.
      */
     private final BlancoValueObjectTsResourceBundle fBundle = new BlancoValueObjectTsResourceBundle();
 
     /**
-     * 入力シートに期待するプログラミング言語
+     * A programming language expected for the input sheet.
      */
     private int fSheetLang = BlancoCgSupportedLang.JAVA;
 
@@ -57,7 +57,7 @@ public class BlancoValueObjectTsXml2TypeScriptClass {
     }
 
     /**
-     * ソースコード生成先ディレクトリのスタイル
+     * Style of the source code generation destination directory
      */
     private boolean fTargetStyleAdvanced = false;
     public void setTargetStyleAdvanced(boolean argTargetStyleAdvanced) {
@@ -92,27 +92,27 @@ public class BlancoValueObjectTsXml2TypeScriptClass {
     }
 
     /**
-     * 内部的に利用するblancoCg用ファクトリ。
+     * A factory for blancoCg to be used internally.
      */
     private BlancoCgObjectFactory fCgFactory = null;
 
     /**
-     * 内部的に利用するblancoCg用ソースファイル情報。
+     * Source file information for blancoCg to be used internally.
      */
     private BlancoCgSourceFile fCgSourceFile = null;
 
     /**
-     * 内部的に利用するblancoCg用クラス情報。
+     * Class information for blancoCg to be used internally.
      */
     private BlancoCgClass fCgClass = null;
 
     /**
-     * 内部的に利用するblancoCg用インタフェイス情報。
+     * Interface information for blancoCg to be used internally.
      */
     private BlancoCgInterface fCgInterface = null;
 
     /**
-     * 自動生成するソースファイルの文字エンコーディング。
+     * Character encoding of auto-generated source files.
      */
     private String fEncoding = null;
 
@@ -127,14 +127,14 @@ public class BlancoValueObjectTsXml2TypeScriptClass {
     }
 
     /**
-     * バリューオブジェクトを表現する中間XMLファイルから、Javaソースコードを自動生成します。
+     * Auto-generates TypeScript source code from an intermediate XML file representing a value object.
      *
      * @param argMetaXmlSourceFile
-     *            ValueObjectに関するメタ情報が含まれているXMLファイル
+     *            An XML file containing meta-information about the ValueObject.
      * @param argDirectoryTarget
-     *            ソースコード生成先ディレクトリ
+     *            Source code generation destination directory.
      * @throws IOException
-     *             入出力例外が発生した場合
+     *             If an I/O exception occurs.
      * @return
      */
     public BlancoValueObjectTsClassStructure[] process(
@@ -147,10 +147,10 @@ public class BlancoValueObjectTsXml2TypeScriptClass {
         for (int index = 0; index < structures.length; index++) {
             BlancoValueObjectTsClassStructure classStructure = structures[index];
             if (!classStructure.getInterface()) {
-                // 得られた情報から TypeScript ソースコードを生成します。
+                // Generates TypeScript source code from the obtained information.
                 generateClass(classStructure, argDirectoryTarget);
             } else {
-                // interface として定義します。
+                // Defines it as an interface.
                 generateInterface(classStructure, argDirectoryTarget);
             }
         }
@@ -196,7 +196,7 @@ public class BlancoValueObjectTsXml2TypeScriptClass {
             }
 
             /*
-             * import list の作成
+             * Creates import list.
              */
             if (listClassStructure.getCreateImportList()
                     && classPackageName != null
@@ -206,11 +206,11 @@ public class BlancoValueObjectTsXml2TypeScriptClass {
         }
 
         /*
-         * 自動生成されたものを出力します。
-         * 現在の方式だと、以下の前提が必要。
-         *  * 1ファイルに1クラスの定義
-         *  * 定義シートでは Java/kotlin 式の package 表記でディレクトリを表現
-         * TODO: 定義シート上にファイルの配置ディレクトリを定義できるようにすべし？
+         * Outputs the auto-generated one.
+         * The current method requires the following assumptions.
+         *  * One class definition per file
+         *  * Represents directories with Java/Kotlin style package notation in the definition sheet
+         * TODO: Should it be possible to define the directory where the files are located on the definition sheet?
          */
         if (listClassStructure.getCreateImportList()) {
             Map<String, List<String>> importHeaderList = parser.importHeaderList;
@@ -234,29 +234,27 @@ public class BlancoValueObjectTsXml2TypeScriptClass {
             }
         }
         /*
-         * クラスファイルを（上書き）生成
+         * Generates (overwrites) class files.
          */
         generateClass(listClassStructure, argDirectoryTarget);
     }
 
     /**
-     * 与えられたクラス情報バリューオブジェクトから、ソースコードを自動生成します。
+     * Auto-generates source code from a given class information value object.
      *
      * @param argClassStructure
-     *            クラス情報
+     *            Class information.
      * @param argDirectoryTarget
-     *            TypeScript ソースコードの出力先ディレクトリ
+     *            Output directory for TypeScript source code.
      * @throws IOException
-     *             入出力例外が発生した場合。
+     *             If an I/O exception occurs.
      */
     public void generateClass(
             final BlancoValueObjectTsClassStructure argClassStructure,
             final File argDirectoryTarget) throws IOException {
         /*
-         * 出力ディレクトリはant taskのtargetStyel引数で
-         * 指定された書式で出力されます。
-         * 従来と互換性を保つために、指定がない場合は blanco/main
-         * となります。
+         * The output directory will be in the format specified by the targetStyle argument of the ant task.
+         * For compatibility, the output directory will be blanco/main if it is not specified.
          * by tueda, 2019/08/30
          */
         String strTarget = argDirectoryTarget
@@ -271,7 +269,7 @@ public class BlancoValueObjectTsXml2TypeScriptClass {
             System.out.println("/* tueda */ generateClass argDirectoryTarget : " + argDirectoryTarget.getAbsolutePath());
         }
 
-        // BlancoCgObjectFactoryクラスのインスタンスを取得します。
+        // Gets an instance of the BlancoCgObjectFactory class.
         fCgFactory = BlancoCgObjectFactory.getInstance();
 
         fCgSourceFile = fCgFactory.createSourceFile(argClassStructure
@@ -279,12 +277,12 @@ public class BlancoValueObjectTsXml2TypeScriptClass {
         fCgSourceFile.setEncoding(fEncoding);
         fCgSourceFile.setTabs(this.getTabs());
 
-        // クラスを作成します。
+        // Creates a class.
         fCgClass = fCgFactory.createClass(argClassStructure.getName(), "");
         fCgSourceFile.getClassList().add(fCgClass);
 
-        // クラスのアクセスを設定。
-        // 指定がない場合は public とします。
+        // Sets access to the class.
+        // If not specified, it will be public.
         if (argClassStructure.getAccess() == null ||
                 argClassStructure.getAccess().length() == 0) {
             argClassStructure.setAccess("public");
@@ -293,20 +291,20 @@ public class BlancoValueObjectTsXml2TypeScriptClass {
             System.out.println("/* tueda */ class access = " + argClassStructure.getAccess());
         }
 
-        // TypeScript では data クラス指定は無視します。
+        // In TypeScript, it ignores the "data" class specification.
         fCgClass.setAccess(argClassStructure.getAccess());
-        // Finalクラスかどうか。
+        // Final class or not.
         fCgClass.setFinal(argClassStructure.getFinal());
-        // 抽象クラスかどうか。
+        // Abstract class or not.
         fCgClass.setAbstract(argClassStructure.getAbstract());
 
-        // 継承
+        // Inheritance
         if (BlancoStringUtil.null2Blank(argClassStructure.getExtends())
                 .length() > 0) {
             fCgClass.getExtendClassList().add(
                     fCgFactory.createType(argClassStructure.getExtends()));
         }
-        // 実装
+        // Implementation
         for (int index = 0; index < argClassStructure.getImplementsList()
                 .size(); index++) {
             final String impl = (String) argClassStructure.getImplementsList()
@@ -321,13 +319,13 @@ public class BlancoValueObjectTsXml2TypeScriptClass {
                     "javax.xml.bind.annotation.XmlRootElement");
         }
 
-        // クラスのJavaDocを設定します。
+        // Sets the JavaDoc for the class.
         fCgClass.setDescription(argClassStructure.getDescription());
         for (String line : argClassStructure.getDescriptionList()) {
             fCgClass.getLangDoc().getDescriptionList().add(line);
         }
 
-        /* クラスのannotation を設定します */
+        /* Sets the annotation for the class. */
         List annotationList = argClassStructure.getAnnotationList();
         if (annotationList != null && annotationList.size() > 0) {
             fCgClass.getAnnotationList().addAll(argClassStructure.getAnnotationList());
@@ -337,7 +335,7 @@ public class BlancoValueObjectTsXml2TypeScriptClass {
             }
         }
 
-        /* TypeScript では import の代わりに header を設定します */
+        /* In TypeScript, sets the header instead of import. */
         for (int index = 0; index < argClassStructure.getHeaderList()
                 .size(); index++) {
             final String header = (String) argClassStructure.getHeaderList()
@@ -348,11 +346,11 @@ public class BlancoValueObjectTsXml2TypeScriptClass {
         boolean toJson = false;
         for (int indexField = 0; indexField < argClassStructure.getFieldList()
                 .size(); indexField++) {
-            // おのおののフィールドを処理します。
+            // Processes each field.
             final BlancoValueObjectTsFieldStructure fieldStructure = (BlancoValueObjectTsFieldStructure) argClassStructure
                     .getFieldList().get(indexField);
 
-            // 必須項目が未設定の場合には例外処理を実施します。
+            // If a required field is not set, exception processing will be performed.
             if (fieldStructure.getName() == null) {
                 throw new IllegalArgumentException(fMsg
                         .getMbvoji03(argClassStructure.getName()));
@@ -366,18 +364,18 @@ public class BlancoValueObjectTsXml2TypeScriptClass {
                 toJson = true;
             }
 
-            // フィールドの生成。
+            // Generates a field.
             buildField(argClassStructure, fieldStructure, false);
 
-            // セッターメソッドの生成。
+            // Generates a setter method.
             if (!fieldStructure.getValue()) {
                 /*
-                 * 定数値に対してはsetterを生成しません。
+                 * It does not generate a setter for constant values.
                  */
                 buildMethodSet(argClassStructure, fieldStructure);
             }
 
-            // ゲッターメソッドの生成。
+            // Generates a getter method.
             buildMethodGet(argClassStructure, fieldStructure);
         }
 
@@ -385,38 +383,36 @@ public class BlancoValueObjectTsXml2TypeScriptClass {
             buildMethodToJSON(argClassStructure);
         }
 
-        // TODO toString メソッドの生成方式を検討する
+        // TODO: Considers how to generate toString method.
 //        if (argClassStructure.getGenerateToString()) {
-//            // toStringメソッドの生成。
+//            // Generates toString method.
 //            buildMethodToString(argClassStructure);
 //        }
 
-        // TODO copyTo メソッドの生成有無を外部フラグ化するかどうか検討すること。
+        // TODO: Considers whether to externally flag whether to generate copyTo method.
 //        BlancoBeanUtils.generateCopyToMethod(fCgSourceFile, fCgClass);
 
-        // 収集された情報を元に実際のソースコードを自動生成。
+        // Auto-generates the actual source code based on the collected information.
         BlancoCgTransformerFactory.getTsSourceTransformer().transform(
                 fCgSourceFile, fileBlancoMain);
     }
 
     /**
-     * 与えられたインタフェイス情報バリューオブジェクトから、ソースコードを自動生成します。
+     * Auto-generates source code from a given interface information value object.
      *
      * @param argInterfaceStructure
-     *            クラス情報
+     *            A class information.
      * @param argDirectoryTarget
-     *            TypeScript ソースコードの出力先ディレクトリ
+     *            Output directory for TypeScript source code
      * @throws IOException
-     *             入出力例外が発生した場合。
+     *             If an I/O exception occurs.
      */
     public void generateInterface(
             final BlancoValueObjectTsClassStructure argInterfaceStructure,
             final File argDirectoryTarget) throws IOException {
         /*
-         * 出力ディレクトリはant taskのtargetStyel引数で
-         * 指定された書式で出力されます。
-         * 従来と互換性を保つために、指定がない場合は blanco/main
-         * となります。
+         * The output directory will be in the format specified by the targetStyle argument of the ant task.
+         * For compatibility, the output directory will be blanco/main if it is not specified.
          * by tueda, 2019/08/30
          */
         String strTarget = argDirectoryTarget
@@ -431,7 +427,7 @@ public class BlancoValueObjectTsXml2TypeScriptClass {
             System.out.println("/* tueda */ generateInterface argDirectoryTarget : " + argDirectoryTarget.getAbsolutePath());
         }
 
-        // BlancoCgObjectFactoryクラスのインスタンスを取得します。
+        // Gets an instance of the BlancoCgObjectFactory class.
         fCgFactory = BlancoCgObjectFactory.getInstance();
 
         fCgSourceFile = fCgFactory.createSourceFile(argInterfaceStructure
@@ -439,21 +435,21 @@ public class BlancoValueObjectTsXml2TypeScriptClass {
         fCgSourceFile.setEncoding(fEncoding);
         fCgSourceFile.setTabs(this.getTabs());
 
-        // インタフェイスを作成します。
+        // Creates an interface.
         fCgInterface = fCgFactory.createInterface(argInterfaceStructure.getName(), "");
         fCgSourceFile.getInterfaceList().add(fCgInterface);
 
-        // インタフェイスではアクセス指定は無視します（常にpublic）。
+        // In the case of an interface, ignores the access specification (always public).
         fCgInterface.setAccess("public");
 
-        // 継承, interface が拡張によって作成される事はありえます
+        // Inheritance and interface can be created by extensions.
         if (BlancoStringUtil.null2Blank(argInterfaceStructure.getExtends())
                 .length() > 0) {
             fCgInterface.getExtendClassList().add(
                     fCgFactory.createType(argInterfaceStructure.getExtends()));
         }
 
-        // インタフェイスに実装はありません。
+        // There is no implementation in the interface.
 
         if (fIsXmlRootElement) {
             fCgInterface.getAnnotationList().add("XmlRootElement");
@@ -461,13 +457,13 @@ public class BlancoValueObjectTsXml2TypeScriptClass {
                     "javax.xml.bind.annotation.XmlRootElement");
         }
 
-        // クラスのJavaDocを設定します。
+        // Sets the JavaDoc for the class.
         fCgInterface.setDescription(argInterfaceStructure.getDescription());
         for (String line : argInterfaceStructure.getDescriptionList()) {
             fCgInterface.getLangDoc().getDescriptionList().add(line);
         }
 
-        /* クラスのannotation を設定します */
+        /* Sets the annotation for the class. */
         List annotationList = argInterfaceStructure.getAnnotationList();
         if (annotationList != null && annotationList.size() > 0) {
             fCgInterface.getAnnotationList().addAll(argInterfaceStructure.getAnnotationList());
@@ -477,7 +473,7 @@ public class BlancoValueObjectTsXml2TypeScriptClass {
             }
         }
 
-        /* TypeScript では import の代わりに header を設定します */
+        /* In TypeScript, sets the header instead of import. */
         for (int index = 0; index < argInterfaceStructure.getHeaderList()
                 .size(); index++) {
             final String header = (String) argInterfaceStructure.getHeaderList()
@@ -487,11 +483,11 @@ public class BlancoValueObjectTsXml2TypeScriptClass {
 
         for (int indexField = 0; indexField < argInterfaceStructure.getFieldList()
                 .size(); indexField++) {
-            // おのおののフィールドを処理します。
+            // Processes each field.
             final BlancoValueObjectTsFieldStructure fieldStructure = (BlancoValueObjectTsFieldStructure) argInterfaceStructure
                     .getFieldList().get(indexField);
 
-            // 必須項目が未設定の場合には例外処理を実施します。
+            // If a required field is not set, exception processing will be performed.
             if (fieldStructure.getName() == null) {
                 throw new IllegalArgumentException(fMsg
                         .getMbvoji03(argInterfaceStructure.getName()));
@@ -501,30 +497,30 @@ public class BlancoValueObjectTsXml2TypeScriptClass {
                         argInterfaceStructure.getName(), fieldStructure.getName()));
             }
 
-            // フィールドの生成。
+            // Generates a field.
             buildField(argInterfaceStructure, fieldStructure, true);
 
-            // インタフェイスには Getter/Setter はありません。
+            // An interface does not have a Getter/Setter.
         }
 
-        // TODO インタフェイスに toString メソッドは必要か？
+        // TODO: Does the interface need a toString method?
 //        if (argInterfaceStructure.getGenerateToString()) {
-//            // toStringメソッドの生成。
+//            // Generates toString method.
 //            buildMethodToString(argInterfaceStructure);
 //        }
 
-        // TODO copyTo メソッドの生成有無を外部フラグ化するかどうか検討すること。
+        // TODO: Considers whether to externally flag whether to generate copyTo method.
 //        BlancoBeanUtils.generateCopyToMethod(fCgSourceFile, fCgClass);
 
-        // 収集された情報を元に実際のソースコードを自動生成。
+        // Auto-generates the actual source code based on the collected information.
         BlancoCgTransformerFactory.getTsSourceTransformer().transform(
                 fCgSourceFile, fileBlancoMain);
     }
 
     /**
-     * クラスにフィールドを生成します。
+     * Generates a field in the class.
      *  @param argClassStructure
-     *            クラス情報。
+     *            Class information.
      * @param argFieldStructure
      * @param isInterface
      */
@@ -536,8 +532,7 @@ public class BlancoValueObjectTsXml2TypeScriptClass {
 //        System.out.println("%%% " + argFieldStructure.toString());
 
         /*
-         * blancoValueObjectではプロパティ名の前にfをつける流儀であるが、
-         * TypeScript では、Interface にはつけない。
+         * In blancoValueObject, the property name is prefixed with "f", but in TypeScript, it is not prefixed with interface.
          */
         String fieldName = argFieldStructure.getName();
         if (isInterface != true) {
@@ -553,8 +548,7 @@ public class BlancoValueObjectTsXml2TypeScriptClass {
         }
 
         /*
-         * Generic に対応します。blancoCg 側では <> が付いている前提かつ
-         * package部をtrimするので、ここで設定しないと正しく設定されません。
+         * Supports Generic. If you don't set it here, it will not be set correctly because blancoCg assumes that "<>" is attached and trims the package part.
          */
         String generic = argFieldStructure.getGeneric();
         if (generic != null && generic.length() > 0) {
@@ -572,21 +566,21 @@ public class BlancoValueObjectTsXml2TypeScriptClass {
             field.setAccess("public");
         }
         /*
-         * 当面、final には対応しません。
+         * For the time being, final will not be supported.
          */
         field.setFinal(false);
 
         /*
-         * const (kotlin では val）に対応します。
+         * Supports const (val in Kotlin).
          */
         field.setConst(argFieldStructure.getValue());
 
-        // nullable に対応します。
+        // Supports nullable.
         if (!argFieldStructure.getNullable()) {
             field.setNotnull(true);
         }
 
-        // フィールドのJavaDocを設定します。
+        // Sets the JavaDoc for the field.
         field.setDescription(argFieldStructure.getDescription());
         for (String line : argFieldStructure.getDescriptionList()) {
             field.getLangDoc().getDescriptionList().add(line);
@@ -595,44 +589,44 @@ public class BlancoValueObjectTsXml2TypeScriptClass {
                 fBundle.getXml2javaclassFieldName(argFieldStructure.getName()));
 
         /*
-         * TypeScript ではプロパティのデフォルト値は原則必須
-         * ただし、interface では設定不可。
+         * In TypeScript, the default value of a property is mandatory in principle.
+         * However, it cannot be set for interface.
          */
         if (isInterface != true) {
             final String type = field.getType().getName();
             String defaultRawValue = argFieldStructure.getDefault();
             boolean isNullable = argFieldStructure.getNullable();
             if (!isNullable && (defaultRawValue == null || defaultRawValue.length() <= 0)) {
-                System.err.println("/* tueda */ フィールドにデフォルト値が設定されていません。interface でない場合は必ずデフォルト値を設定するか、Nullableを設定してください。");
+                System.err.println("/* tueda */ No default value has been set for the field. If it is not an interface, be sure to set the default value or set it to Nullable.");
                 throw new IllegalArgumentException(fMsg
                         .getMbvoji08(argClassStructure.getName(), argFieldStructure.getName()));
             }
 
-            // フィールドのデフォルト値を設定します。
+            // Sets the default value for the field.
             field.getLangDoc().getDescriptionList().add(
                     BlancoCgSourceUtil.escapeStringAsLangDoc(BlancoCgSupportedLang.KOTLIN, fBundle.getXml2javaclassFieldDefault(argFieldStructure
                             .getDefault())));
             if (argClassStructure.getAdjustDefaultValue() == false) {
-                // デフォルト値の変形がoffの場合には、定義書上の値をそのまま採用。
+                // If the variant of the default value is off, the value on the definition sheet is adopted as it is.
                 field.setDefault(argFieldStructure.getDefault());
             } else {
 
                 if (type.equals("string")) {
-                    // ダブルクオートを付与します。
+                    // Adds double-quotes.
                     field.setDefault("\""
                             + BlancoJavaSourceUtil
                                     .escapeStringAsJavaSource(argFieldStructure
                                             .getDefault()) + "\"");
                 } else {
                     /*
-                     * その他の型については当面、与えられた値をそのまま記述します。
+                     * For other types, for the time being, the given value is written as is.
                      */
                     field.setDefault(argFieldStructure.getDefault());
                 }
             }
         }
 
-        /* メソッドの annotation を設定します */
+        /* Sets the annotation for the method. */
         List annotationList = argFieldStructure.getAnnotationList();
         if (annotationList != null && annotationList.size() > 0) {
             field.getAnnotationList().addAll(annotationList);
@@ -643,15 +637,15 @@ public class BlancoValueObjectTsXml2TypeScriptClass {
     }
 
     /**
-     * setメソッドを生成します。
+     * Generates a set method.
      *
      * @param argFieldStructure
-     *            フィールド情報。
+     *            Field information.
      */
     private void buildMethodSet(
             final BlancoValueObjectTsClassStructure argClassStructure,
             final BlancoValueObjectTsFieldStructure argFieldStructure) {
-        // おのおののフィールドに対するセッターメソッドを生成します。
+        // Generates a setter method for each field.
         final BlancoCgMethod method = fCgFactory.createMethod(argFieldStructure.getName(),
                 fBundle.getXml2javaclassSetJavadoc01(argFieldStructure
                         .getName()));
@@ -659,7 +653,7 @@ public class BlancoValueObjectTsXml2TypeScriptClass {
 
         method.setAccess("set");
 
-        // メソッドの JavaDoc設定。
+        // JavaDoc configuration of the method.
         if (argFieldStructure.getDescription() != null) {
             method.getLangDoc().getDescriptionList().add(
                     fBundle.getXml2javaclassSetJavadoc02(argFieldStructure
@@ -679,13 +673,13 @@ public class BlancoValueObjectTsXml2TypeScriptClass {
             param.setNotnull(true);
         }
         method.getParameterList().add(param);
-        // generic があれば対応
+        // Supports generic if available.
         String generic = argFieldStructure.getGeneric();
         if (generic != null && generic.length() > 0) {
             param.getType().setGenerics(generic);
         }
 
-        // メソッドの実装
+        // Method implementation.
         method.getLineList().add(
                 "this.f"
                         + getFieldNameAdjustered(argClassStructure, argFieldStructure)
@@ -696,28 +690,28 @@ public class BlancoValueObjectTsXml2TypeScriptClass {
     }
 
     /**
-     * getメソッドを生成します。
+     * Generates a get method.
      *
      * @param argFieldStructure
-     *            フィールド情報。
+     *            Field information.
      */
     private void buildMethodGet(
             final BlancoValueObjectTsClassStructure argClassStructure,
             final BlancoValueObjectTsFieldStructure argFieldStructure) {
-        // おのおののフィールドに対するゲッターメソッドを生成します。
+        // Generates a getter method for each field.
         final BlancoCgMethod method = fCgFactory.createMethod(argFieldStructure.getName(),
                 fBundle.getXml2javaclassGetJavadoc01(argFieldStructure
                         .getName()));
         fCgClass.getMethodList().add(method);
 
-        // Notnull に対応
+        // Supports for Notnull.
         if (!argFieldStructure.getNullable()) {
             method.setNotnull(true);
         }
 
         method.setAccess("get");
 
-        // メソッドの JavaDoc設定。
+        // JavaDoc configuration of the method.
         if (argFieldStructure.getDescription() != null) {
             method.getLangDoc().getDescriptionList().add(
                     fBundle.getXml2javaclassGetJavadoc02(argFieldStructure
@@ -735,20 +729,20 @@ public class BlancoValueObjectTsXml2TypeScriptClass {
         BlancoCgReturn cgReturn = fCgFactory.createReturn(argFieldStructure.getType(),
                 fBundle.getXml2javaclassGetReturnJavadoc(argFieldStructure.getName()));
         method.setReturn(cgReturn);
-        // generic があれば対応
+        // Supports generic if available.
         String generic = argFieldStructure.getGeneric();
         if (generic != null && generic.length() > 0) {
             method.getReturn().getType().setGenerics(generic);
         }
 
-        // メソッドの実装
+        // Method implementation.
         method.getLineList().add(
                 "return this.f"
                         + this.getFieldNameAdjustered(argClassStructure, argFieldStructure) + ";");
     }
 
     /**
-     * toJSON メソッドを生成します。
+     * Generates toJSON method.
      *
      * @param argClassStructure
      */
@@ -756,14 +750,14 @@ public class BlancoValueObjectTsXml2TypeScriptClass {
             final BlancoValueObjectTsClassStructure argClassStructure
     ) {
         final BlancoCgMethod method = fCgFactory.createMethod("toJSON",
-                "このバリューオブジェクトからJSONに書き出すプロパティを取得します。");
+                "Gets the properties to be written to JSON from this value object.");
         fCgClass.getMethodList().add(method);
 
         method.setReturn(fCgFactory.createReturn("any",
-                "toJSONが返すオブジェクト"));
+                "An object returned by toJSON."));
         method.setNotnull(true);
         /*
-         * 一応指定するが、Typescript では無効
+         * Specified, but not valid in TypeScript.
          */
         method.setFinal(true);
 
@@ -773,8 +767,8 @@ public class BlancoValueObjectTsXml2TypeScriptClass {
         String toJsonEnd = "};";
 
         /*
-         * 親クラスが存在する場合はそれも含める
-         * ただし親クラスに toJSON が存在しない場合は含めない
+         * If the parent class exists, it is also included.
+         * However, if toJSON does not exist in the parent class, it will not be included.
          */
         if (BlancoStringUtil.null2Blank(argClassStructure.getExtends()).length() > 0 && !argClassStructure.getGenerateEmptyToJSON()) {
             String className = BlancoValueObjectTsUtil.getSimpleClassName(argClassStructure.getExtends());
@@ -782,16 +776,14 @@ public class BlancoValueObjectTsXml2TypeScriptClass {
             BlancoValueObjectTsClassStructure voStructure = BlancoValueObjectTsUtil.objects.get(className);
             boolean superHasToJson = false;
             /*
-             * Excelシートにはクラス全体としてのgenerateToJSONフラグはない。
-             * ant task のオプションで与えるので、この回の生成は全て同じフラグで
-             * あるという前提にする。
+             * There is no class-wide generateToJSON flag in the Excel sheet. Since it is given as an option in the ant task, it is assumed that all generation this time will have the same flag.
              */
             if (voStructure != null && this.isDefaultGenerateToJson()) {
                 System.out.println("### Super Class = " + voStructure.getName());
                 for (BlancoValueObjectTsFieldStructure fieldStructure : voStructure.getFieldList()) {
                     System.out.println("Exclude toJSON ? = " + fieldStructure.getExcludeToJson());
                     if (!fieldStructure.getExcludeToJson()) {
-                        /* ひとつでも toJson 非除外のフィールドがあれば */
+                        /* If there is any field that is not excluded from toJSON. */
                         superHasToJson = true;
                         break;
                     }
@@ -827,31 +819,31 @@ public class BlancoValueObjectTsXml2TypeScriptClass {
     }
 
     /**
-     * toStringメソッドを生成します。
+     * Generates toString method.
      *
      * @param argClassStructure
-     *            クラス情報。
+     *            Class information.
      */
     @Deprecated
     private void buildMethodToString(
             final BlancoValueObjectTsClassStructure argClassStructure) {
         final BlancoCgMethod method = fCgFactory.createMethod("toString",
-                "このバリューオブジェクトの文字列表現を取得します。");
+                "Gets the string representation of this value object.");
         fCgClass.getMethodList().add(method);
 
-        method.getLangDoc().getDescriptionList().add("<P>使用上の注意</P>");
+        method.getLangDoc().getDescriptionList().add("<P>Precautions for use</P>");
         method.getLangDoc().getDescriptionList().add("<UL>");
         method.getLangDoc().getDescriptionList().add(
-                "<LI>オブジェクトのシャロー範囲のみ文字列化の処理対象となります。");
+                "<LI>Only the shallow range of the object will be subject to the stringification process.");
         method.getLangDoc().getDescriptionList().add(
-                "<LI>オブジェクトが循環参照している場合には、このメソッドは使わないでください。");
+                "<LI>Do not use this method if the object has a circular reference.");
         method.getLangDoc().getDescriptionList().add("</UL>");
         method.setReturn(fCgFactory.createReturn("java.lang.String",
-                "バリューオブジェクトの文字列表現。"));
+                "String representation of a value object."));
         method.getAnnotationList().add("Override");
 
         /*
-         * 当面の間、BlancoValueObjectTs ではtoStringのoverrideを許しません。
+         * For the time being, BlancoValueObjectTs does not allow toString override.
          */
         method.setFinal(true);
 
@@ -874,25 +866,24 @@ public class BlancoValueObjectTsXml2TypeScriptClass {
                         + field.getName() + "=\" + f" + fieldNameAdjustered
                         + ");");
             } else {
-                // 2006.05.31 t.iga 配列の場合には、先に
-                // その配列自身がnullかどうかのチェックが必要です。
+                // 2006.05.31 t.iga In the case of arrays, it is necessary to first check whether the array itself is null or not.
                 listLine.add("if (f" + fieldNameAdjustered + " == null) {");
-                // 0番目の項目である場合にはカンマなしの特別扱いをします。
+                // If it is the 0th item, it will be given special treatment without a comma.
                 listLine.add("buf.append(" + (indexField == 0 ? "\"" :
-                // 0番目ではない場合には、常にカンマを付与します。
+                // If it is not the 0th, a comma is always given.
                         "\",") + field.getName() + "=null\");");
                 listLine.add("} else {");
 
-                // 配列の場合にはディープにtoStringします。
+                // In the case of arrays, uses deep toString.
                 listLine.add("buf.append("
-                // 0番目の項目である場合にはカンマなしの特別扱いをします。
+                // If it is the 0th item, it will be given special treatment without a comma.
                         + (indexField == 0 ? "\"" :
-                        // 0番目ではない場合には、常にカンマを付与します。
+                        // If it is not the 0th, a comma is always given.
                                 "\",") + field.getName() + "=[\");");
                 listLine.add("for (int index = 0; index < f"
                         + fieldNameAdjustered + ".length; index++) {");
                 // 2006.05.31 t.iga
-                // ArrayListなどのtoStringと同様になるように、カンマのあとに半角スペースを付与するようにします。
+                // To make it similar to toString in ArrayList, etc., adds a half-width space after the comma.
                 listLine.add("buf.append((index == 0 ? \"\" : \", \") + f"
                         + fieldNameAdjustered + "[index]);");
                 listLine.add("}");
@@ -905,11 +896,11 @@ public class BlancoValueObjectTsXml2TypeScriptClass {
     }
 
     /**
-     * 調整済みのフィールド名を取得します。
+     * Gets the adjusted field name.
      *
      * @param argFieldStructure
-     *            フィールド情報。
-     * @return 調整後のフィールド名。
+     *            Field information.
+     * @return Adjusted field name.
      */
     private String getFieldNameAdjustered(
             final BlancoValueObjectTsClassStructure argClassStructure,
