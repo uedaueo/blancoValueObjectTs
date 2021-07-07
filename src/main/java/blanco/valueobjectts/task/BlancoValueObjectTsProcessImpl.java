@@ -28,7 +28,7 @@ import java.util.Map;
 public class BlancoValueObjectTsProcessImpl implements BlancoValueObjectTsProcess {
 
     /**
-     * メッセージ。
+     * A message.
      */
     private final BlancoValueObjectTsMessage fMsg = new BlancoValueObjectTsMessage();
 
@@ -47,7 +47,7 @@ public class BlancoValueObjectTsProcessImpl implements BlancoValueObjectTsProces
             }
 
             /*
-             * 改行コードを決定します。
+             * Determines the newline code.
              */
             String LF = "\n";
             String CR = "\r";
@@ -79,20 +79,20 @@ public class BlancoValueObjectTsProcessImpl implements BlancoValueObjectTsProces
             }
 
             /*
-             * targetdir, targetStyleの処理。
-             * 生成されたコードの保管場所を設定する。
+             * Processes targetdir and targetStyle.
+             * Sets the storage location for the generated code.
              * targetstyle = blanco:
-             *  targetdirの下に main ディレクトリを作成
+             *  Creates a main directory under targetdir.
              * targetstyle = maven:
-             *  targetdirの下に main/java ディレクトリを作成
+             *  Creates a main/java directory under targetdir.
              * targetstyle = free:
-             *  targetdirをそのまま使用してディレクトリを作成。
-             *  ただしtargetdirがからの場合はデフォルト文字列(blanco)使用する。
+             *  Creates a directory using targetdir as is.
+             *  However, if targetdir is empty, the default string (blanco) is used.
              * by tueda, 2019/08/30
              */
             String strTarget = input.getTargetdir();
             String style = input.getTargetStyle();
-            // ここを通ったら常にtrue
+            // Always true when passing through here.
             boolean isTargetStyleAdvanced = true;
             if (style != null && BlancoValueObjectTsConstants.TARGET_STYLE_MAVEN.equals(style)) {
                 strTarget = strTarget + "/" + BlancoValueObjectTsConstants.TARGET_DIR_SUFFIX_MAVEN;
@@ -100,14 +100,14 @@ public class BlancoValueObjectTsProcessImpl implements BlancoValueObjectTsProces
                     !BlancoValueObjectTsConstants.TARGET_STYLE_FREE.equals(style)) {
                 strTarget = strTarget + "/" + BlancoValueObjectTsConstants.TARGET_DIR_SUFFIX_BLANCO;
             }
-            /* style が free だったらtargetdirをそのまま使う */
+            /* If style is free, uses targetdir as is. */
             if (input.getVerbose()) {
                 System.out.println("/* tueda */ TARGETDIR = " + strTarget);
             }
 
             boolean generateToJson = input.getGenerateToJson();
 
-            // テンポラリディレクトリを作成。
+            // Creates a temporary directory.
             new File(input.getTmpdir()
                     + BlancoValueObjectTsConstants.TARGET_SUBDIRECTORY).mkdirs();
 
@@ -115,23 +115,22 @@ public class BlancoValueObjectTsProcessImpl implements BlancoValueObjectTsProces
                     .getTmpdir()
                     + BlancoValueObjectTsConstants.TARGET_SUBDIRECTORY);
 
-            // XML化されたメタファイルからValueObjectを生成
-            // 最初にテンポラリフォルダを走査
+            // Generates ValueObject from XML-ized meta file.
+            // Scans the temporary folder first.
             final File[] fileMeta2 = new File(input.getTmpdir()
                     + BlancoValueObjectTsConstants.TARGET_SUBDIRECTORY)
                     .listFiles();
 
         /*
-         * まず始めにすべてのシートを検索して，クラス名からstructureのリストを作ります。
-         * php形式の定義書では，クラスを指定する際にpackage名が指定されていないからです。
-         * Typescript ではオブジェクトの配置ディレクトリはstructureから検索しなければならないので、パッケージ名のリストでは不十分です。
+         * First, searches all the sheets and makes a list of structures from the class names.
+         * The reason is that in the PHP-style definitions, the package name is not specified when specifying a class.
+         *  In TypeScript, the object placement directory has to be searched from the structure, so a list of package names is not sufficient.
          */
             BlancoValueObjectTsUtil.isVerbose = input.getVerbose();
             BlancoValueObjectTsUtil.processValueObjects(input.getTmpdir(), input.getSearchTmpdir(), BlancoValueObjectTsUtil.objects);
 
             /*
-             * listClass が指定されている場合は、自動生成したクラスの一覧を
-             * 保持するValueObjectを作成する準備をします。
+             * If listClass is specified, prepares to create a ValueObject that will hold the list of auto-generated classes.
              */
             boolean createClassList = false;
             String listClassName = input.getListClass();
@@ -141,7 +140,7 @@ public class BlancoValueObjectTsProcessImpl implements BlancoValueObjectTsProces
                 createClassList = true;
             }
 
-            // 次にメタディレクトリとして指定されているディレクトリを走査
+            // Next, scans the directory specified as the meta directory.
             for (int index = 0; index < fileMeta2.length; index++) {
                 if (fileMeta2[index].getName().endsWith(".xml") == false) {
                     continue;
@@ -158,8 +157,7 @@ public class BlancoValueObjectTsProcessImpl implements BlancoValueObjectTsProces
                 BlancoValueObjectTsClassStructure [] structures = xml2Class.process(fileMeta2[index], new File(strTarget));
 
                 /*
-                 * listClass が指定されている場合は、自動生成した
-                 * クラスの一覧を収集します。
+                 * If listClass is specified, it will collect a list of auto-generated class.
                  */
                 for (int index2 = 0; createClassList && index2 < structures.length; index2++) {
                     BlancoValueObjectTsClassStructure classStructure = structures[index2];
@@ -172,8 +170,7 @@ public class BlancoValueObjectTsProcessImpl implements BlancoValueObjectTsProces
             }
 
             /*
-             * listClass が指定されている場合は、自動生成したクラスの一覧を
-             * 保持するValueObjectを作成します。
+             * If listClass is specified, it will create a ValueObject that holds the list of auto-generated classes.
              */
             if (createClassList) {
                 if (listClassStructure == null) {
@@ -181,7 +178,7 @@ public class BlancoValueObjectTsProcessImpl implements BlancoValueObjectTsProces
                     return BlancoValueObjectTsBatchProcess.END_SUCCESS;
                 }
 
-                // listTmpdir からstructure情報を収集します。
+                // Collects structure information from listTmpdir.
                 Map<String, BlancoValueObjectTsClassStructure> searchListStructures = new HashMap<>();
                 BlancoValueObjectTsUtil.processValueObjects(null, input.getListTmpdir(), searchListStructures);
                 listClassStructures.addAll(searchListStructures.values());
@@ -193,14 +190,14 @@ public class BlancoValueObjectTsProcessImpl implements BlancoValueObjectTsProces
                 xml2Class.setXmlRootElement(input.getXmlrootelement());
                 xml2Class.setSheetLang(new BlancoCgSupportedLang().convertToInt(input.getSheetType()));
                 xml2Class.setTabs(input.getTabs());
-                /* listClass では常に toJSON は生成しない */
+                /* listClass does not always generate toJSON. */
                 xml2Class.setDefaultGenerateToJson(false);
                 xml2Class.processListClass(listClassStructures, listClassStructure, new File(strTarget));
             }
 
             return BlancoValueObjectTsBatchProcess.END_SUCCESS;
         } catch (TransformerException e) {
-            throw new IOException("XML変換の過程で例外が発生しました: " + e.toString());
+            throw new IOException("An exception has occurred during the XML conversion process: " + e.toString());
         }
     }
 
