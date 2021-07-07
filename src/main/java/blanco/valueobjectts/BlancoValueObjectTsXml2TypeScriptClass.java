@@ -754,7 +754,7 @@ public class BlancoValueObjectTsXml2TypeScriptClass {
         fCgClass.getMethodList().add(method);
 
         method.setReturn(fCgFactory.createReturn("any",
-                "An object returned by toJSON."));
+                "An object returned by toJSON"));
         method.setNotnull(true);
         /*
          * Specified, but not valid in TypeScript.
