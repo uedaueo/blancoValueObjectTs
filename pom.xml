@@ -5,7 +5,7 @@
 	<groupId>blanco.valueobjectts</groupId>
 	<artifactId>blanco-valueobjectts</artifactId>
 	<packaging>jar</packaging>
-	<version>0.1.6</version>
+	<version>0.1.7</version>
 	<name>blanco-valueobject-ts</name>
 	<url>https://igapyon.github.io/blancofw-maven2</url>
 
@@ -56,7 +56,7 @@
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>4.13</version>
+			<version>4.13.2</version>
 			<scope>test</scope>
 		</dependency>
 

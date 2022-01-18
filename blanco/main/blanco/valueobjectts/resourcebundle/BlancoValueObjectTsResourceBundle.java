@@ -65,9 +65,9 @@ public class BlancoValueObjectTsResourceBundle {
     }
 
     /**
-     * 内部的に保持しているリソースバンドルオブジェクトを取得します。
+     * Gets the resource bundle object held internally.
      *
-     * @return 内部的に保持しているリソースバンドルオブジェクト。
+     * @return The resource bundle object held internally.
      */
     public ResourceBundle getResourceBundle() {
         return fResourceBundle;

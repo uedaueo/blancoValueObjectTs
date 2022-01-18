@@ -23,7 +23,7 @@ public class BlancoValueObjectTsMessage {
      */
     public String getMbvoji01(final String arg0) {
         if (arg0 == null) {
-            throw new IllegalArgumentException("メソッド[getMbvoji01]のパラメータ[arg0]にnullが与えられました。しかし、このパラメータにnullを与えることはできません。");
+            throw new IllegalArgumentException("The parameter [arg0] of the method [getMbvoji01] has been given null. However, null cannot be given to this parameter.");
         }
 
         return "[MBVOJI01] " + fBundle.getMbvoji01(arg0);
@@ -41,10 +41,10 @@ public class BlancoValueObjectTsMessage {
      */
     public String getMbvoji02(final String arg0, final String arg1) {
         if (arg0 == null) {
-            throw new IllegalArgumentException("メソッド[getMbvoji02]のパラメータ[arg0]にnullが与えられました。しかし、このパラメータにnullを与えることはできません。");
+            throw new IllegalArgumentException("The parameter [arg0] of the method [getMbvoji02] has been given null. However, null cannot be given to this parameter.");
         }
         if (arg1 == null) {
-            throw new IllegalArgumentException("メソッド[getMbvoji02]のパラメータ[arg1]にnullが与えられました。しかし、このパラメータにnullを与えることはできません。");
+            throw new IllegalArgumentException("The parameter [arg1] of the method [getMbvoji02] has been given null. However, null cannot be given to this parameter.");
         }
 
         return "[MBVOJI02] " + fBundle.getMbvoji02(arg0, arg1);
@@ -61,7 +61,7 @@ public class BlancoValueObjectTsMessage {
      */
     public String getMbvoji03(final String arg0) {
         if (arg0 == null) {
-            throw new IllegalArgumentException("メソッド[getMbvoji03]のパラメータ[arg0]にnullが与えられました。しかし、このパラメータにnullを与えることはできません。");
+            throw new IllegalArgumentException("The parameter [arg0] of the method [getMbvoji03] has been given null. However, null cannot be given to this parameter.");
         }
 
         return "[MBVOJI03] " + fBundle.getMbvoji03(arg0);
@@ -79,10 +79,10 @@ public class BlancoValueObjectTsMessage {
      */
     public String getMbvoji04(final String arg0, final String arg1) {
         if (arg0 == null) {
-            throw new IllegalArgumentException("メソッド[getMbvoji04]のパラメータ[arg0]にnullが与えられました。しかし、このパラメータにnullを与えることはできません。");
+            throw new IllegalArgumentException("The parameter [arg0] of the method [getMbvoji04] has been given null. However, null cannot be given to this parameter.");
         }
         if (arg1 == null) {
-            throw new IllegalArgumentException("メソッド[getMbvoji04]のパラメータ[arg1]にnullが与えられました。しかし、このパラメータにnullを与えることはできません。");
+            throw new IllegalArgumentException("The parameter [arg1] of the method [getMbvoji04] has been given null. However, null cannot be given to this parameter.");
         }
 
         return "[MBVOJI04] " + fBundle.getMbvoji04(arg0, arg1);
@@ -102,16 +102,16 @@ public class BlancoValueObjectTsMessage {
      */
     public String getMbvoji05(final String arg0, final String arg1, final String arg2, final String arg3) {
         if (arg0 == null) {
-            throw new IllegalArgumentException("メソッド[getMbvoji05]のパラメータ[arg0]にnullが与えられました。しかし、このパラメータにnullを与えることはできません。");
+            throw new IllegalArgumentException("The parameter [arg0] of the method [getMbvoji05] has been given null. However, null cannot be given to this parameter.");
         }
         if (arg1 == null) {
-            throw new IllegalArgumentException("メソッド[getMbvoji05]のパラメータ[arg1]にnullが与えられました。しかし、このパラメータにnullを与えることはできません。");
+            throw new IllegalArgumentException("The parameter [arg1] of the method [getMbvoji05] has been given null. However, null cannot be given to this parameter.");
         }
         if (arg2 == null) {
-            throw new IllegalArgumentException("メソッド[getMbvoji05]のパラメータ[arg2]にnullが与えられました。しかし、このパラメータにnullを与えることはできません。");
+            throw new IllegalArgumentException("The parameter [arg2] of the method [getMbvoji05] has been given null. However, null cannot be given to this parameter.");
         }
         if (arg3 == null) {
-            throw new IllegalArgumentException("メソッド[getMbvoji05]のパラメータ[arg3]にnullが与えられました。しかし、このパラメータにnullを与えることはできません。");
+            throw new IllegalArgumentException("The parameter [arg3] of the method [getMbvoji05] has been given null. However, null cannot be given to this parameter.");
         }
 
         return "[MBVOJI05] " + fBundle.getMbvoji05(arg0, arg1, arg2, arg3);
@@ -131,16 +131,16 @@ public class BlancoValueObjectTsMessage {
      */
     public String getMbvoji06(final String arg0, final String arg1, final String arg2, final String arg3) {
         if (arg0 == null) {
-            throw new IllegalArgumentException("メソッド[getMbvoji06]のパラメータ[arg0]にnullが与えられました。しかし、このパラメータにnullを与えることはできません。");
+            throw new IllegalArgumentException("The parameter [arg0] of the method [getMbvoji06] has been given null. However, null cannot be given to this parameter.");
         }
         if (arg1 == null) {
-            throw new IllegalArgumentException("メソッド[getMbvoji06]のパラメータ[arg1]にnullが与えられました。しかし、このパラメータにnullを与えることはできません。");
+            throw new IllegalArgumentException("The parameter [arg1] of the method [getMbvoji06] has been given null. However, null cannot be given to this parameter.");
         }
         if (arg2 == null) {
-            throw new IllegalArgumentException("メソッド[getMbvoji06]のパラメータ[arg2]にnullが与えられました。しかし、このパラメータにnullを与えることはできません。");
+            throw new IllegalArgumentException("The parameter [arg2] of the method [getMbvoji06] has been given null. However, null cannot be given to this parameter.");
         }
         if (arg3 == null) {
-            throw new IllegalArgumentException("メソッド[getMbvoji06]のパラメータ[arg3]にnullが与えられました。しかし、このパラメータにnullを与えることはできません。");
+            throw new IllegalArgumentException("The parameter [arg3] of the method [getMbvoji06] has been given null. However, null cannot be given to this parameter.");
         }
 
         return "[MBVOJI06] " + fBundle.getMbvoji06(arg0, arg1, arg2, arg3);
@@ -157,7 +157,7 @@ public class BlancoValueObjectTsMessage {
      */
     public String getMbvoji07(final String arg0) {
         if (arg0 == null) {
-            throw new IllegalArgumentException("メソッド[getMbvoji07]のパラメータ[arg0]にnullが与えられました。しかし、このパラメータにnullを与えることはできません。");
+            throw new IllegalArgumentException("The parameter [arg0] of the method [getMbvoji07] has been given null. However, null cannot be given to this parameter.");
         }
 
         return "[MBVOJI07] " + fBundle.getMbvoji07(arg0);
@@ -175,10 +175,10 @@ public class BlancoValueObjectTsMessage {
      */
     public String getMbvoji08(final String arg0, final String arg1) {
         if (arg0 == null) {
-            throw new IllegalArgumentException("メソッド[getMbvoji08]のパラメータ[arg0]にnullが与えられました。しかし、このパラメータにnullを与えることはできません。");
+            throw new IllegalArgumentException("The parameter [arg0] of the method [getMbvoji08] has been given null. However, null cannot be given to this parameter.");
         }
         if (arg1 == null) {
-            throw new IllegalArgumentException("メソッド[getMbvoji08]のパラメータ[arg1]にnullが与えられました。しかし、このパラメータにnullを与えることはできません。");
+            throw new IllegalArgumentException("The parameter [arg1] of the method [getMbvoji08] has been given null. However, null cannot be given to this parameter.");
         }
 
         return "[MBVOJI08] " + fBundle.getMbvoji08(arg0, arg1);
@@ -195,7 +195,7 @@ public class BlancoValueObjectTsMessage {
      */
     public String getMbvoja01(final String arg0) {
         if (arg0 == null) {
-            throw new IllegalArgumentException("メソッド[getMbvoja01]のパラメータ[arg0]にnullが与えられました。しかし、このパラメータにnullを与えることはできません。");
+            throw new IllegalArgumentException("The parameter [arg0] of the method [getMbvoja01] has been given null. However, null cannot be given to this parameter.");
         }
 
         return "[MBVOJA01] " + fBundle.getMbvoja01(arg0);
