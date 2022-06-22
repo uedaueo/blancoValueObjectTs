@@ -365,18 +365,20 @@ public class BlancoValueObjectTsXml2TypeScriptClass {
             }
 
             // Generates a field.
-            buildField(argClassStructure, fieldStructure, false);
+            buildField(argClassStructure, fieldStructure);
 
-            // Generates a setter method.
-            if (!fieldStructure.getValue()) {
-                /*
-                 * It does not generate a setter for constant values.
-                 */
-                buildMethodSet(argClassStructure, fieldStructure);
+            if (argClassStructure.getLabel() != true) {
+                // Generates a setter method.
+                if (!fieldStructure.getValue()) {
+                    /*
+                     * It does not generate a setter for constant values.
+                     */
+                    buildMethodSet(argClassStructure, fieldStructure);
+                }
+
+                // Generates a getter method.
+                buildMethodGet(argClassStructure, fieldStructure);
             }
-
-            // Generates a getter method.
-            buildMethodGet(argClassStructure, fieldStructure);
         }
 
         if ((toJson && this.defaultGenerateToJson) || argClassStructure.getGenerateEmptyToJSON()) {
@@ -498,7 +500,7 @@ public class BlancoValueObjectTsXml2TypeScriptClass {
             }
 
             // Generates a field.
-            buildField(argInterfaceStructure, fieldStructure, true);
+            buildField(argInterfaceStructure, fieldStructure);
 
             // An interface does not have a Getter/Setter.
         }
@@ -519,23 +521,24 @@ public class BlancoValueObjectTsXml2TypeScriptClass {
 
     /**
      * Generates a field in the class.
-     *  @param argClassStructure
-     *            Class information.
+     *
+     * @param argClassStructure Class information.
      * @param argFieldStructure
-     * @param isInterface
      */
     private void buildField(
             final BlancoValueObjectTsClassStructure argClassStructure,
-            final BlancoValueObjectTsFieldStructure argFieldStructure,
-            boolean isInterface) {
+            final BlancoValueObjectTsFieldStructure argFieldStructure) {
 
 //        System.out.println("%%% " + argFieldStructure.toString());
+
+        boolean isInterface = argClassStructure.getInterface();
+        boolean isLabel = isInterface ? false : argClassStructure.getLabel();
 
         /*
          * In blancoValueObject, the property name is prefixed with "f", but in TypeScript, it is not prefixed with interface.
          */
         String fieldName = argFieldStructure.getName();
-        if (isInterface != true) {
+        if (isInterface != true && isLabel != true) {
             fieldName = "f" + this.getFieldNameAdjustered(argClassStructure, argFieldStructure);
         }
         final BlancoCgField field = fCgFactory.createField(fieldName,
@@ -560,7 +563,7 @@ public class BlancoValueObjectTsXml2TypeScriptClass {
             System.out.println("!!! generic = " + field.getType().getGenerics());
         }
 
-        if (isInterface != true) {
+        if (isInterface != true && isLabel != true) {
             field.setAccess("private");
         } else {
             field.setAccess("public");

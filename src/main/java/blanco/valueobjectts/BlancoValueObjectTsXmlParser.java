@@ -91,7 +91,7 @@ public class BlancoValueObjectTsXmlParser {
 
     /**
      * Parses an XML document in an intermediate XML file to get an array of value object information.
-     * 
+     *
      * @param argXmlDocument
      *            XML document of an intermediate XML file.
      * @return An array of value object information obtained as a result of parsing.
@@ -184,7 +184,7 @@ public class BlancoValueObjectTsXmlParser {
 
     /**
      * Parses the "sheet" XML element in the intermediate XML file to get the value object information.
-     * 
+     *
      * @param argElementSheet
      *            "sheet" XML element in the intermediate XML file.
      * @return Value object information obtained as a result of parsing. Null is returned if "name" is not found.
@@ -216,7 +216,7 @@ public class BlancoValueObjectTsXmlParser {
                     objClassStructure.setDescription(lines[index]);
                 } else {
                     // For a multi-line description, it will be split and stored.
-                    // From the second line, assumes that character reference encoding has been properly implemented.      
+                    // From the second line, assumes that character reference encoding has been properly implemented.
                     objClassStructure.getDescriptionList().add(lines[index]);
                 }
             }
@@ -230,6 +230,8 @@ public class BlancoValueObjectTsXmlParser {
                 .getTextContent(elementCommon, "data")));
         objClassStructure.setInterface("true".equals(BlancoXmlBindingUtil
                 .getTextContent(elementCommon, "interface")));
+        objClassStructure.setLabel("true".equals(BlancoXmlBindingUtil
+                .getTextContent(elementCommon, "label")));
         objClassStructure.setGenerateToString("true"
                 .equals(BlancoXmlBindingUtil.getTextContent(elementCommon,
                         "generateToString")));
@@ -314,7 +316,7 @@ public class BlancoValueObjectTsXmlParser {
                         fieldStructure.setDescription(lines[indexLine]);
                     } else {
                         // For a multi-line description, it will be split and stored.
-                        // From the second line, assumes that character reference encoding has been properly implemented.   
+                        // From the second line, assumes that character reference encoding has been properly implemented.
                         fieldStructure.getDescriptionList().add(
                                 lines[indexLine]);
                     }
@@ -388,7 +390,7 @@ public class BlancoValueObjectTsXmlParser {
                     objClassStructure.setDescription(lines[index]);
                 } else {
                     // For a multi-line description, it will be split and stored.
-                    // From the second line, assumes that character reference encoding has been properly implemented.   
+                    // From the second line, assumes that character reference encoding has been properly implemented.
                     objClassStructure.getDescriptionList().add(lines[index]);
                 }
             }
@@ -413,6 +415,8 @@ public class BlancoValueObjectTsXmlParser {
                 .getTextContent(elementCommon, "data")));
         objClassStructure.setInterface("true".equals(BlancoXmlBindingUtil
                 .getTextContent(elementCommon, "interface")));
+        objClassStructure.setLabel("true".equals(BlancoXmlBindingUtil
+                .getTextContent(elementCommon, "label")));
         objClassStructure.setGenerateToString("true"
                 .equals(BlancoXmlBindingUtil.getTextContent(elementCommon,
                         "generateToString")));
@@ -699,7 +703,7 @@ public class BlancoValueObjectTsXmlParser {
                         fieldStructure.setDescription(lines[indexLine]);
                     } else {
                         // For a multi-line description, it will be split and stored.
-                        // From the second line, assumes that character reference encoding has been properly implemented.   
+                        // From the second line, assumes that character reference encoding has been properly implemented.
                         fieldStructure.getDescriptionList().add(
                                 lines[indexLine]);
                     }

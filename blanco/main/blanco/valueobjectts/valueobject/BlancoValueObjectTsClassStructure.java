@@ -116,6 +116,14 @@ public class BlancoValueObjectTsClassStructure {
     private Boolean fInterface = false;
 
     /**
+     * ラベル定義用かどうか。通常は false。インタフェイス指定があればそちらが優先します。
+     *
+     * フィールド: [label]。
+     * デフォルト: [false]。
+     */
+    private Boolean fLabel = false;
+
+    /**
      * toStringメソッドを生成するかどうか。
      *
      * フィールド: [generateToString]。
@@ -519,6 +527,29 @@ public class BlancoValueObjectTsClassStructure {
     }
 
     /**
+     * フィールド [label] の値を設定します。
+     *
+     * フィールドの説明: [ラベル定義用かどうか。通常は false。インタフェイス指定があればそちらが優先します。]。
+     *
+     * @param argLabel フィールド[label]に設定する値。
+     */
+    public void setLabel(final Boolean argLabel) {
+        fLabel = argLabel;
+    }
+
+    /**
+     * フィールド [label] の値を取得します。
+     *
+     * フィールドの説明: [ラベル定義用かどうか。通常は false。インタフェイス指定があればそちらが優先します。]。
+     * デフォルト: [false]。
+     *
+     * @return フィールド[label]から取得した値。
+     */
+    public Boolean getLabel() {
+        return fLabel;
+    }
+
+    /**
      * フィールド [generateToString] の値を設定します。
      *
      * フィールドの説明: [toStringメソッドを生成するかどうか。]。
@@ -798,6 +829,7 @@ public class BlancoValueObjectTsClassStructure {
         buf.append(",final=" + fFinal);
         buf.append(",abstract=" + fAbstract);
         buf.append(",interface=" + fInterface);
+        buf.append(",label=" + fLabel);
         buf.append(",generateToString=" + fGenerateToString);
         buf.append(",adjustFieldName=" + fAdjustFieldName);
         buf.append(",adjustDefaultValue=" + fAdjustDefaultValue);
@@ -873,6 +905,9 @@ public class BlancoValueObjectTsClassStructure {
         // Name: fInterface
         // Type: java.lang.Boolean
         target.fInterface = this.fInterface;
+        // Name: fLabel
+        // Type: java.lang.Boolean
+        target.fLabel = this.fLabel;
         // Name: fGenerateToString
         // Type: java.lang.Boolean
         target.fGenerateToString = this.fGenerateToString;

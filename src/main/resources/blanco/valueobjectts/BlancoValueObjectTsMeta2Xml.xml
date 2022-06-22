@@ -123,6 +123,9 @@
         <propertykey name="interface" waitX="2">
           <value>インタフェイス</value>
         </propertykey>
+        <propertykey name="label" waitX="2">
+          <value>ラベル</value>
+        </propertykey>
         <propertykey name="generateToString" waitX="2">
           <value>toStringメソッドの生成</value>
         </propertykey>
