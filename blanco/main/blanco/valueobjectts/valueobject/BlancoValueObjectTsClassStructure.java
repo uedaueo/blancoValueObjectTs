@@ -116,6 +116,14 @@ public class BlancoValueObjectTsClassStructure {
     private Boolean fInterface = false;
 
     /**
+     * 列挙型かどうか。通常は false。インタフェイスかどうかよりも優先されます。
+     *
+     * フィールド: [enumeration]。
+     * デフォルト: [false]。
+     */
+    private Boolean fEnumeration = false;
+
+    /**
      * ラベル定義用かどうか。通常は false。インタフェイス指定があればそちらが優先します。
      *
      * フィールド: [label]。
@@ -527,6 +535,29 @@ public class BlancoValueObjectTsClassStructure {
     }
 
     /**
+     * フィールド [enumeration] の値を設定します。
+     *
+     * フィールドの説明: [列挙型かどうか。通常は false。インタフェイスかどうかよりも優先されます。]。
+     *
+     * @param argEnumeration フィールド[enumeration]に設定する値。
+     */
+    public void setEnumeration(final Boolean argEnumeration) {
+        fEnumeration = argEnumeration;
+    }
+
+    /**
+     * フィールド [enumeration] の値を取得します。
+     *
+     * フィールドの説明: [列挙型かどうか。通常は false。インタフェイスかどうかよりも優先されます。]。
+     * デフォルト: [false]。
+     *
+     * @return フィールド[enumeration]から取得した値。
+     */
+    public Boolean getEnumeration() {
+        return fEnumeration;
+    }
+
+    /**
      * フィールド [label] の値を設定します。
      *
      * フィールドの説明: [ラベル定義用かどうか。通常は false。インタフェイス指定があればそちらが優先します。]。
@@ -829,6 +860,7 @@ public class BlancoValueObjectTsClassStructure {
         buf.append(",final=" + fFinal);
         buf.append(",abstract=" + fAbstract);
         buf.append(",interface=" + fInterface);
+        buf.append(",enumeration=" + fEnumeration);
         buf.append(",label=" + fLabel);
         buf.append(",generateToString=" + fGenerateToString);
         buf.append(",adjustFieldName=" + fAdjustFieldName);
@@ -905,6 +937,9 @@ public class BlancoValueObjectTsClassStructure {
         // Name: fInterface
         // Type: java.lang.Boolean
         target.fInterface = this.fInterface;
+        // Name: fEnumeration
+        // Type: java.lang.Boolean
+        target.fEnumeration = this.fEnumeration;
         // Name: fLabel
         // Type: java.lang.Boolean
         target.fLabel = this.fLabel;

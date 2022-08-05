@@ -123,6 +123,9 @@
         <propertykey name="interface" waitX="2">
           <value>インタフェイス</value>
         </propertykey>
+        <propertykey name="enumeration" waitX="2">
+          <value>列挙型として定義</value>
+        </propertykey>
         <propertykey name="label" waitX="2">
           <value>ラベル</value>
         </propertykey>

@@ -230,6 +230,8 @@ public class BlancoValueObjectTsXmlParser {
                 .getTextContent(elementCommon, "data")));
         objClassStructure.setInterface("true".equals(BlancoXmlBindingUtil
                 .getTextContent(elementCommon, "interface")));
+        objClassStructure.setEnumeration("true".equals(BlancoXmlBindingUtil
+                .getTextContent(elementCommon, "enumeration")));
         objClassStructure.setLabel("true".equals(BlancoXmlBindingUtil
                 .getTextContent(elementCommon, "label")));
         objClassStructure.setGenerateToString("true"
@@ -415,6 +417,8 @@ public class BlancoValueObjectTsXmlParser {
                 .getTextContent(elementCommon, "data")));
         objClassStructure.setInterface("true".equals(BlancoXmlBindingUtil
                 .getTextContent(elementCommon, "interface")));
+        objClassStructure.setEnumeration("true".equals(BlancoXmlBindingUtil
+                .getTextContent(elementCommon, "enumeration")));
         objClassStructure.setLabel("true".equals(BlancoXmlBindingUtil
                 .getTextContent(elementCommon, "label")));
         objClassStructure.setGenerateToString("true"

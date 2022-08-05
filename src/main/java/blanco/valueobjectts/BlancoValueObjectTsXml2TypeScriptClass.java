@@ -112,6 +112,11 @@ public class BlancoValueObjectTsXml2TypeScriptClass {
     private BlancoCgInterface fCgInterface = null;
 
     /**
+     * Enum information for blancoCg to be used internally.
+     */
+    private BlancoCgEnum fCgEnum = null;
+
+    /**
      * Character encoding of auto-generated source files.
      */
     private String fEncoding = null;
@@ -146,12 +151,16 @@ public class BlancoValueObjectTsXml2TypeScriptClass {
         final BlancoValueObjectTsClassStructure[] structures = parser.parse(argMetaXmlSourceFile);
         for (int index = 0; index < structures.length; index++) {
             BlancoValueObjectTsClassStructure classStructure = structures[index];
-            if (!classStructure.getInterface()) {
-                // Generates TypeScript source code from the obtained information.
-                generateClass(classStructure, argDirectoryTarget);
-            } else {
+            System.out.println(classStructure.getName() + " ENUM = " + classStructure.getEnumeration());
+            if (classStructure.getEnumeration()) {
+                // Define it as an enumeration
+                generateEnum(classStructure, argDirectoryTarget);
+            } else if (classStructure.getInterface()) {
                 // Defines it as an interface.
                 generateInterface(classStructure, argDirectoryTarget);
+            } else {
+                // Generates TypeScript source code from the obtained information.
+                generateClass(classStructure, argDirectoryTarget);
             }
         }
         return structures;
@@ -397,6 +406,126 @@ public class BlancoValueObjectTsXml2TypeScriptClass {
         // Auto-generates the actual source code based on the collected information.
         BlancoCgTransformerFactory.getTsSourceTransformer().transform(
                 fCgSourceFile, fileBlancoMain);
+    }
+
+    /**
+     * Auto-generates source code from a given enum information value object.
+     *
+     * @param argEnumStructure
+     *            A class information.
+     * @param argDirectoryTarget
+     *            Output directory for TypeScript source code
+     * @throws IOException
+     *             If an I/O exception occurs.
+     */
+    public void generateEnum(
+            final BlancoValueObjectTsClassStructure argEnumStructure,
+            final File argDirectoryTarget) throws IOException {
+        /*
+         * The output directory will be in the format specified by the targetStyle argument of the ant task.
+         * For compatibility, the output directory will be blanco/main if it is not specified.
+         * by tueda, 2019/08/30
+         */
+        String strTarget = argDirectoryTarget
+                .getAbsolutePath(); // advanced
+        if (!this.isTargetStyleAdvanced()) {
+            strTarget += "/main"; // legacy
+        }
+        final File fileBlancoMain = new File(strTarget);
+
+        /* tueda DEBUG */
+        if (this.isVerbose()) {
+            System.out.println("/* tueda */ generateEnum argDirectoryTarget : " + argDirectoryTarget.getAbsolutePath());
+        }
+
+        // Gets an instance of the BlancoCgObjectFactory class.
+        fCgFactory = BlancoCgObjectFactory.getInstance();
+
+        fCgSourceFile = fCgFactory.createSourceFile(argEnumStructure
+                .getPackage(), null);
+        fCgSourceFile.setEncoding(fEncoding);
+        fCgSourceFile.setTabs(this.getTabs());
+
+        // Creates an interface.
+        fCgEnum = fCgFactory.createEnum(argEnumStructure.getName(), "");
+        fCgSourceFile.getEnumList().add(fCgEnum);
+
+        // In the case of an enum, ignores the access specification (always public).
+        fCgEnum.setAccess("public");
+
+//        if (fIsXmlRootElement) {
+//            fCgSourceFile.getImportList().add(
+//                    "javax.xml.bind.annotation.XmlRootElement");
+//        }
+
+        // Sets the JavaDoc for the class.
+        fCgEnum.setDescription(argEnumStructure.getDescription());
+        for (String line : argEnumStructure.getDescriptionList()) {
+            fCgEnum.getLangDoc().getDescriptionList().add(line);
+        }
+
+        /* In TypeScript, sets the header instead of import. */
+        for (int index = 0; index < argEnumStructure.getHeaderList()
+                .size(); index++) {
+            final String header = (String) argEnumStructure.getHeaderList()
+                    .get(index);
+            fCgSourceFile.getHeaderList().add(header);
+        }
+
+        for (int indexField = 0; indexField < argEnumStructure.getFieldList()
+                .size(); indexField++) {
+            // Processes each field.
+            final BlancoValueObjectTsFieldStructure fieldStructure = (BlancoValueObjectTsFieldStructure) argEnumStructure
+                    .getFieldList().get(indexField);
+
+            // If a required field is not set, exception processing will be performed.
+            if (fieldStructure.getName() == null) {
+                throw new IllegalArgumentException(fMsg
+                        .getMbvoji03(argEnumStructure.getName()));
+            }
+
+            // Generates a field, ignore construct arguments.
+            if (!fieldStructure.getConstArg()) {
+                buildEnumerate(fieldStructure);
+            }
+        }
+
+        // Auto-generates the actual source code based on the collected information.
+        BlancoCgTransformerFactory.getTsSourceTransformer().transform(
+                fCgSourceFile, fileBlancoMain);
+    }
+
+
+    /**
+     * Generates a enumerate in the class.
+     *
+     * @param argFieldStructure
+     */
+    private void buildEnumerate(
+            final BlancoValueObjectTsFieldStructure argFieldStructure) {
+
+//        System.out.println("%%% " + argFieldStructure.toString());
+
+        String LF = System.getProperty("line.separator");
+        String fieldName = argFieldStructure.getName();
+
+        final BlancoCgEnumElement enumElement = fCgFactory.createEnumElement(fieldName, "");
+        fCgEnum.getElementList().add(enumElement);
+
+        // Description
+        if (BlancoStringUtil.null2Blank(argFieldStructure.getDescription()).length() > 0) {
+            StringBuffer descrBuf = new StringBuffer();
+            descrBuf.append(argFieldStructure.getDescription());
+            for (String descr : argFieldStructure.getDescriptionList()) {
+                descrBuf.append(LF + descr);
+            }
+            enumElement.setDescription(argFieldStructure.getDescription());
+        }
+
+        // Default Value
+        if (BlancoStringUtil.null2Blank(argFieldStructure.getDefault()).length() > 0) {
+            enumElement.setDefault(argFieldStructure.getDefault());
+        }
     }
 
     /**
