@@ -9,11 +9,12 @@
  */
 package blanco.valueobjectts;
 
+import java.io.IOException;
+
+import org.junit.jupiter.api.Test;
+
 import blanco.valueobjectts.task.BlancoValueObjectTsProcessImpl;
 import blanco.valueobjectts.task.valueobject.BlancoValueObjectTsProcessInput;
-import org.junit.Test;
-
-import java.io.IOException;
 
 /**
  * Generation test for TypeScript.
