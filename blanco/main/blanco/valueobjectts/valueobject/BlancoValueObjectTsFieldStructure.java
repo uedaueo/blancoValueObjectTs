@@ -21,6 +21,13 @@ public class BlancoValueObjectTsFieldStructure {
     private String fName;
 
     /**
+     * フィールド名の別名を指定します。toJSONに反映されます。
+     *
+     * フィールド: [alias]。
+     */
+    private String fAlias;
+
+    /**
      * 型名をパッケージ名のフル修飾付で指定します。必須項目です。
      *
      * フィールド: [type]。
@@ -188,6 +195,28 @@ public class BlancoValueObjectTsFieldStructure {
      */
     public String getName() {
         return fName;
+    }
+
+    /**
+     * フィールド [alias] の値を設定します。
+     *
+     * フィールドの説明: [フィールド名の別名を指定します。toJSONに反映されます。]。
+     *
+     * @param argAlias フィールド[alias]に設定する値。
+     */
+    public void setAlias(final String argAlias) {
+        fAlias = argAlias;
+    }
+
+    /**
+     * フィールド [alias] の値を取得します。
+     *
+     * フィールドの説明: [フィールド名の別名を指定します。toJSONに反映されます。]。
+     *
+     * @return フィールド[alias]から取得した値。
+     */
+    public String getAlias() {
+        return fAlias;
     }
 
     /**
@@ -588,6 +617,7 @@ public class BlancoValueObjectTsFieldStructure {
         buf.append("blanco.valueobjectts.valueobject.BlancoValueObjectTsFieldStructure[");
         buf.append("no=" + fNo);
         buf.append(",name=" + fName);
+        buf.append(",alias=" + fAlias);
         buf.append(",type=" + fType);
         buf.append(",generic=" + fGeneric);
         buf.append(",annotationList=" + fAnnotationList);
@@ -633,6 +663,9 @@ public class BlancoValueObjectTsFieldStructure {
         // Name: fName
         // Type: java.lang.String
         target.fName = this.fName;
+        // Name: fAlias
+        // Type: java.lang.String
+        target.fAlias = this.fAlias;
         // Name: fType
         // Type: java.lang.String
         target.fType = this.fType;

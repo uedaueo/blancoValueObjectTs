@@ -682,6 +682,18 @@ public class BlancoValueObjectTsXmlParser {
                     fieldStructure.setAnnotationList(annotationList);
                 }
 
+                // Support alias
+                String alias = BlancoXmlBindingUtil
+                        .getTextContent(elementList, "aliasTs");
+                if (BlancoStringUtil.null2Blank(alias).trim().isEmpty()) {
+                    alias = BlancoXmlBindingUtil
+                            .getTextContent(elementList, "alias");
+                }
+                if (BlancoStringUtil.null2Blank(alias).trim().isEmpty()) {
+                    alias = fieldStructure.getName();
+                }
+                fieldStructure.setAlias(alias);
+
                 // Supports abstract.
                 fieldStructure.setAbstract("true".equals(BlancoXmlBindingUtil
                         .getTextContent(elementList, "abstract")));

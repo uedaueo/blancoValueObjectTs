@@ -218,6 +218,12 @@
         <tablecolumn name="abstract">
           <value>abstract</value>
         </tablecolumn>
+        <tablecolumn name="alias">
+          <value>別名</value>
+        </tablecolumn>
+        <tablecolumn name="aliasTs">
+          <value>別名(ts)</value>
+        </tablecolumn>
         <tablecolumn name="nullable">
           <value>Nullable</value>
         </tablecolumn>

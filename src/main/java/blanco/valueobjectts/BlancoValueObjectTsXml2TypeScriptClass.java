@@ -941,7 +941,7 @@ public class BlancoValueObjectTsXml2TypeScriptClass {
                 if (indexField > 0 && line.length() > 0) {
                     listLine.add(line + ",");
                 }
-                line = field.getName() + ": this." + field.getName();
+                line = field.getAlias() + ": this." + field.getName();
             }
         }
         if (line.length() > 0) {
