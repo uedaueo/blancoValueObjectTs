@@ -84,6 +84,8 @@ public class BlancoValueObjectTsBatchProcess {
                 input.setListTmpdir(arg.substring(12));
             } else if (arg.startsWith("-searchTmpdir=")) {
                 input.setSearchTmpdir(arg.substring(14));
+            } else if (arg.startsWith("-preferAlias=")) {
+                input.setPreferAlias(Boolean.valueOf(arg.substring(13)).booleanValue());
             } else if (arg.equals("-?") || arg.equals("-help")) {
                 usage();
                 System.exit(END_SUCCESS);
@@ -177,7 +179,7 @@ public class BlancoValueObjectTsBatchProcess {
      */
     public static final void usage() {
         System.out.println("BlancoValueObjectTsBatchProcess: Usage:");
-        System.out.println("  java blanco.valueobjectts.task.BlancoValueObjectTsBatchProcess -verbose=value1 -metadir=value2 -targetdir=value3 -tmpdir=value4 -encoding=value5 -tabs=value6 -xmlrootelement=value7 -sheetType=value8 -targetStyle=value9 -listClass=value10 -lineSeparator=value11 -generateToJson=value12 -listTmpdir=value13 -searchTmpdir=value14");
+        System.out.println("  java blanco.valueobjectts.task.BlancoValueObjectTsBatchProcess -verbose=value1 -metadir=value2 -targetdir=value3 -tmpdir=value4 -encoding=value5 -tabs=value6 -xmlrootelement=value7 -sheetType=value8 -targetStyle=value9 -listClass=value10 -lineSeparator=value11 -generateToJson=value12 -listTmpdir=value13 -searchTmpdir=value14 -preferAlias=value15");
         System.out.println("    -verbose");
         System.out.println("      explanation[Whether to run in verbose mode.]");
         System.out.println("      type[boolean]");
@@ -230,6 +232,10 @@ public class BlancoValueObjectTsBatchProcess {
         System.out.println("    -searchTmpdir");
         System.out.println("      explanation[import 文自動生成時に package を検索にいくtmpdir をカンマ区切りで指定します。]");
         System.out.println("      type[string]");
+        System.out.println("    -preferAlias");
+        System.out.println("      explanation[プロパティ値に別名が設定されていた場合、name を alias で上書きする。]");
+        System.out.println("      type[boolean]");
+        System.out.println("      default value[false]");
         System.out.println("    -? , -help");
         System.out.println("      explanation[show the usage.]");
     }

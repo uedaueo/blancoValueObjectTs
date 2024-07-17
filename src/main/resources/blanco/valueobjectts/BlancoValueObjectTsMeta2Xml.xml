@@ -223,6 +223,7 @@
         </tablecolumn>
         <tablecolumn name="aliasTs">
           <value>別名(ts)</value>
+          <value>別名(Ts)</value>
         </tablecolumn>
         <tablecolumn name="nullable">
           <value>Nullable</value>

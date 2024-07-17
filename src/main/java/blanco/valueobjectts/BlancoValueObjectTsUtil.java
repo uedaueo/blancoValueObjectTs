@@ -20,6 +20,7 @@ public class BlancoValueObjectTsUtil {
 
     static public boolean isVerbose = false;
     static public boolean createToJson = false;
+    static public boolean isPreferAlias = false;
 
     static public Map<String, BlancoValueObjectTsClassStructure> objects = new HashMap<>();
 
