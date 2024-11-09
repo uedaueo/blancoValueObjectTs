@@ -86,6 +86,8 @@ public class BlancoValueObjectTsBatchProcess {
                 input.setSearchTmpdir(arg.substring(14));
             } else if (arg.startsWith("-preferAlias=")) {
                 input.setPreferAlias(Boolean.valueOf(arg.substring(13)).booleanValue());
+            } else if (arg.startsWith("-strictNullable=")) {
+                input.setStrictNullable(Boolean.valueOf(arg.substring(16)).booleanValue());
             } else if (arg.equals("-?") || arg.equals("-help")) {
                 usage();
                 System.exit(END_SUCCESS);
@@ -179,7 +181,7 @@ public class BlancoValueObjectTsBatchProcess {
      */
     public static final void usage() {
         System.out.println("BlancoValueObjectTsBatchProcess: Usage:");
-        System.out.println("  java blanco.valueobjectts.task.BlancoValueObjectTsBatchProcess -verbose=value1 -metadir=value2 -targetdir=value3 -tmpdir=value4 -encoding=value5 -tabs=value6 -xmlrootelement=value7 -sheetType=value8 -targetStyle=value9 -listClass=value10 -lineSeparator=value11 -generateToJson=value12 -listTmpdir=value13 -searchTmpdir=value14 -preferAlias=value15");
+        System.out.println("  java blanco.valueobjectts.task.BlancoValueObjectTsBatchProcess -verbose=value1 -metadir=value2 -targetdir=value3 -tmpdir=value4 -encoding=value5 -tabs=value6 -xmlrootelement=value7 -sheetType=value8 -targetStyle=value9 -listClass=value10 -lineSeparator=value11 -generateToJson=value12 -listTmpdir=value13 -searchTmpdir=value14 -preferAlias=value15 -strictNullable=value16");
         System.out.println("    -verbose");
         System.out.println("      explanation[Whether to run in verbose mode.]");
         System.out.println("      type[boolean]");
@@ -234,6 +236,10 @@ public class BlancoValueObjectTsBatchProcess {
         System.out.println("      type[string]");
         System.out.println("    -preferAlias");
         System.out.println("      explanation[プロパティ値に別名が設定されていた場合、name を alias で上書きする。]");
+        System.out.println("      type[boolean]");
+        System.out.println("      default value[false]");
+        System.out.println("    -strictNullable");
+        System.out.println("      explanation[Nullable な property に対して、? の付与をやめて | undefined | null の定義を行う。false の場合は ? が付与されて | undefined のみ付与される。]");
         System.out.println("      type[boolean]");
         System.out.println("      default value[false]");
         System.out.println("    -? , -help");

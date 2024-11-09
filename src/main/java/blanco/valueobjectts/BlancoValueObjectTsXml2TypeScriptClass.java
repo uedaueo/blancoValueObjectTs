@@ -285,6 +285,9 @@ public class BlancoValueObjectTsXml2TypeScriptClass {
                 .getPackage(), null);
         fCgSourceFile.setEncoding(fEncoding);
         fCgSourceFile.setTabs(this.getTabs());
+        if (BlancoValueObjectTsUtil.isStrictNullable) {
+            fCgSourceFile.setIsStrictNullable(true);
+        }
 
         // Creates a class.
         fCgClass = fCgFactory.createClass(argClassStructure.getName(), "");
@@ -565,6 +568,9 @@ public class BlancoValueObjectTsXml2TypeScriptClass {
                 .getPackage(), null);
         fCgSourceFile.setEncoding(fEncoding);
         fCgSourceFile.setTabs(this.getTabs());
+        if (BlancoValueObjectTsUtil.isStrictNullable) {
+            fCgSourceFile.setIsStrictNullable(true);
+        }
 
         // Creates an interface.
         fCgInterface = fCgFactory.createInterface(argInterfaceStructure.getName(), "");

@@ -109,6 +109,7 @@ public class BlancoValueObjectTsProcessImpl implements BlancoValueObjectTsProces
 
             boolean generateToJson = input.getGenerateToJson();
             BlancoValueObjectTsUtil.isPreferAlias = input.getPreferAlias();
+            BlancoValueObjectTsUtil.isStrictNullable = input.getStrictNullable();
 
             // Creates a temporary directory.
             new File(input.getTmpdir()

@@ -120,6 +120,14 @@ public class BlancoValueObjectTsProcessInput {
     private boolean fPreferAlias = false;
 
     /**
+     * Nullable な property に対して、? の付与をやめて | undefined | null の定義を行う。false の場合は ? が付与されて | undefined のみ付与される。
+     *
+     * フィールド: [strictNullable]。
+     * デフォルト: [false]。
+     */
+    private boolean fStrictNullable = false;
+
+    /**
      * フィールド [verbose] の値を設定します。
      *
      * フィールドの説明: [Whether to run in verbose mode.]。
@@ -460,6 +468,29 @@ public class BlancoValueObjectTsProcessInput {
     }
 
     /**
+     * フィールド [strictNullable] の値を設定します。
+     *
+     * フィールドの説明: [Nullable な property に対して、? の付与をやめて | undefined | null の定義を行う。false の場合は ? が付与されて | undefined のみ付与される。]。
+     *
+     * @param argStrictNullable フィールド[strictNullable]に設定する値。
+     */
+    public void setStrictNullable(final boolean argStrictNullable) {
+        fStrictNullable = argStrictNullable;
+    }
+
+    /**
+     * フィールド [strictNullable] の値を取得します。
+     *
+     * フィールドの説明: [Nullable な property に対して、? の付与をやめて | undefined | null の定義を行う。false の場合は ? が付与されて | undefined のみ付与される。]。
+     * デフォルト: [false]。
+     *
+     * @return フィールド[strictNullable]から取得した値。
+     */
+    public boolean getStrictNullable() {
+        return fStrictNullable;
+    }
+
+    /**
      * Gets the string representation of this value object.
      *
      * <P>Precautions for use</P>
@@ -489,6 +520,7 @@ public class BlancoValueObjectTsProcessInput {
         buf.append(",listTmpdir=" + fListTmpdir);
         buf.append(",searchTmpdir=" + fSearchTmpdir);
         buf.append(",preferAlias=" + fPreferAlias);
+        buf.append(",strictNullable=" + fStrictNullable);
         buf.append("]");
         return buf.toString();
     }
@@ -556,5 +588,8 @@ public class BlancoValueObjectTsProcessInput {
         // Name: fPreferAlias
         // Type: boolean
         target.fPreferAlias = this.fPreferAlias;
+        // Name: fStrictNullable
+        // Type: boolean
+        target.fStrictNullable = this.fStrictNullable;
     }
 }
