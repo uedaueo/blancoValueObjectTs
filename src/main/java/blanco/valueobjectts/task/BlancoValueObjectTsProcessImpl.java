@@ -9,15 +9,6 @@
  */
 package blanco.valueobjectts.task;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.xml.transform.TransformerException;
-
 import blanco.cg.BlancoCgSupportedLang;
 import blanco.valueobjectts.BlancoValueObjectTsConstants;
 import blanco.valueobjectts.BlancoValueObjectTsMeta2Xml;
@@ -26,6 +17,12 @@ import blanco.valueobjectts.BlancoValueObjectTsXml2TypeScriptClass;
 import blanco.valueobjectts.message.BlancoValueObjectTsMessage;
 import blanco.valueobjectts.task.valueobject.BlancoValueObjectTsProcessInput;
 import blanco.valueobjectts.valueobject.BlancoValueObjectTsClassStructure;
+
+import javax.xml.transform.TransformerException;
+import java.io.File;
+import java.io.IOException;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class BlancoValueObjectTsProcessImpl implements BlancoValueObjectTsProcess {
 
@@ -140,6 +137,8 @@ public class BlancoValueObjectTsProcessImpl implements BlancoValueObjectTsProces
             String listClassName = input.getListClass();
             BlancoValueObjectTsClassStructure listClassStructure = null;
             List<BlancoValueObjectTsClassStructure> listClassStructures = new ArrayList<>();
+            List<BlancoValueObjectTsClassStructure> sortedListClassStructures = new ArrayList<>();
+
             if (listClassName != null && listClassName.length() > 0) {
                 createClassList = true;
             }
@@ -187,6 +186,21 @@ public class BlancoValueObjectTsProcessImpl implements BlancoValueObjectTsProces
                 BlancoValueObjectTsUtil.processValueObjects(null, input.getListTmpdir(), searchListStructures);
                 listClassStructures.addAll(searchListStructures.values());
 
+                /* sort class list */
+                if (listClassStructures.size() == 1) {
+                    sortedListClassStructures.add(listClassStructures.get(0));
+                } else if (listClassStructures.size() > 1) {
+                    sortedListClassStructures = listClassStructures.stream().sorted(
+                            new Comparator<BlancoValueObjectTsClassStructure>()
+                            {
+                                @Override
+                                public int compare(BlancoValueObjectTsClassStructure o1, BlancoValueObjectTsClassStructure o2) {
+                                    return o1.getName().compareTo(o2.getName());
+                                }
+                            }
+                    ).collect(Collectors.toList());
+                }
+
                 final BlancoValueObjectTsXml2TypeScriptClass xml2Class = new BlancoValueObjectTsXml2TypeScriptClass();
                 xml2Class.setEncoding(input.getEncoding());
                 xml2Class.setVerbose(input.getVerbose());
@@ -196,7 +210,7 @@ public class BlancoValueObjectTsProcessImpl implements BlancoValueObjectTsProces
                 xml2Class.setTabs(input.getTabs());
                 /* listClass does not always generate toJSON. */
                 xml2Class.setDefaultGenerateToJson(false);
-                xml2Class.processListClass(listClassStructures, listClassStructure, new File(strTarget));
+                xml2Class.processListClass(sortedListClassStructures, listClassStructure, new File(strTarget));
             }
 
             return BlancoValueObjectTsBatchProcess.END_SUCCESS;
