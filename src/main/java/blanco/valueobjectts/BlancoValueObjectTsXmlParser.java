@@ -203,7 +203,11 @@ public class BlancoValueObjectTsXmlParser {
         objClassStructure.setName(BlancoXmlBindingUtil.getTextContent(
                 elementCommon, "name"));
         objClassStructure.setPackage(BlancoXmlBindingUtil.getTextContent(
-                elementCommon, "package"));
+                elementCommon, "packageTs"));
+        if (objClassStructure.getPackage() == null || objClassStructure.getPackage().trim().isEmpty()) {
+            objClassStructure.setPackage(BlancoXmlBindingUtil.getTextContent(
+                    elementCommon, "package"));
+        }
 
         objClassStructure.setDescription(BlancoXmlBindingUtil.getTextContent(
                 elementCommon, "description"));
@@ -375,7 +379,11 @@ public class BlancoValueObjectTsXmlParser {
         objClassStructure.setName(BlancoXmlBindingUtil.getTextContent(
                 elementCommon, "name"));
         objClassStructure.setPackage(BlancoXmlBindingUtil.getTextContent(
-                elementCommon, "package"));
+                elementCommon, "packageTs"));
+        if (objClassStructure.getPackage() == null || objClassStructure.getPackage().trim().isEmpty()) {
+            objClassStructure.setPackage(BlancoXmlBindingUtil.getTextContent(
+                    elementCommon, "package"));
+        }
         objClassStructure.setClassAlias(BlancoXmlBindingUtil.getTextContent(
                 elementCommon, "classAlias"));
         objClassStructure.setBasedir(BlancoXmlBindingUtil.getTextContent(

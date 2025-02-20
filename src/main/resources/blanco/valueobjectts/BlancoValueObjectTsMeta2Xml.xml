@@ -11,6 +11,10 @@
         <propertykey name="package" waitX="2">
           <value>パッケージ</value>
         </propertykey>
+        <propertykey name="packageTs" waitX="2">
+          <value>パッケージ(ts)</value>
+          <value>パッケージ(Ts)</value>
+        </propertykey>
         <propertykey name="description" waitX="2">
           <value>説明</value>
         </propertykey>
@@ -99,7 +103,11 @@
         <propertykey name="package" waitX="2">
           <value>パッケージ</value>
         </propertykey>
-          <propertykey name="annotation" waitX="2">
+        <propertykey name="packageTs" waitX="2">
+          <value>パッケージ(ts)</value>
+          <value>パッケージ(Ts)</value>
+        </propertykey>
+        <propertykey name="annotation" waitX="2">
           <value>デコレーション</value>
         </propertykey>
         <propertykey name="description" waitX="2">
